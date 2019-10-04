@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">RosarioRescue</string>
-    <string name="titleCover">Love Animals</string>
-    <string name="subTitleCover">Are soo cuteeee</string>
+    <string name="app_name">Rosario Rescue</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_add_favourite">Add to Favourites</string>
+    <string name="action_play_next">Play Next</string>
+    <string name="backdrop_title">LOVE ANIMALS</string>
+    <string name="backdrop_subtitle">Helping each other is the key</string>
 </resources>

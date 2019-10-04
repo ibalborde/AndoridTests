@@ -32,4 +32,22 @@ dependencies {
 
     //design
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat'
+
+    //cardView
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    //recyclerView
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    // Glide
+    compile 'com.github.bumptech.glide:glide:4.10.0'
+
+
+
+
+
 }
