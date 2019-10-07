@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -13,12 +14,14 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +30,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     private RecyclerView recyclerView;
-    private AnimalAdapter practice;
-    private List<Animal> practiceList;
+    private AnimalAdapter animal;
+    private List<Animal> AnimalsList;
+
+    private TabAdapter adapter;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +48,17 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        practiceList = new ArrayList<>();
-        practice = new AnimalAdapter(this, practiceList);
+        AnimalsList = new ArrayList<>();
+        animal = new AnimalAdapter(this, AnimalsList);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(10), true));
+        recyclerView.addItemDecoration(new MainActivity.GridSpacingItemDecoration(1, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(practice);
+        recyclerView.setAdapter(animal);
 
         prepareAlbums();
+
 
         try {
             Glide.with(this).load(R.drawable.cat1).into((ImageView) findViewById(R.id.backdrop));
@@ -69,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
     }
 
     /**
@@ -114,18 +123,18 @@ public class MainActivity extends AppCompatActivity {
                 R.drawable.dog2};
 
         Animal a = new Animal("30-09-19", 13, covers[0]);
-        practiceList.add(a);
+        AnimalsList.add(a);
 
         a = new Animal("29-09-19", 8, covers[1]);
-        practiceList.add(a);
+        AnimalsList.add(a);
 
         a = new Animal("28-09-19", 11, covers[2]);
-        practiceList.add(a);
+        AnimalsList.add(a);
 
         a = new Animal("27-09-19", 12, covers[3]);
-        practiceList.add(a);
+        AnimalsList.add(a);
 
-        practice.notifyDataSetChanged();
+        animal.notifyDataSetChanged();
     }
 
     /**

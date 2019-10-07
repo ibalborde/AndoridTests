@@ -60,6 +60,7 @@
                                             android:textSize="@dimen/backdrop_subtitle" />
 
                                 </LinearLayout>
+
                         </RelativeLayout>
 
                         <androidx.appcompat.widget.Toolbar
@@ -75,6 +76,7 @@
 
         <include layout="@layout/content_main" />
 
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -83,5 +85,6 @@
             android:src="@drawable/baseline_add_white_48"
             android:contentDescription="@string/action_settings"
             android:layout_margin="16dp" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

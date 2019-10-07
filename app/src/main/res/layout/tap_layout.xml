@@ -1,0 +1,30 @@
+<com.google.android.material.tabs.TabLayout android:id="@+id/tabs"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:maxHeight="25dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@android:color/white"
+    app:tabInlineLabel="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.tabs.TabItem
+        android:id="@+id/tab_cat"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:icon="@drawable/ic_cat_black_48dp"
+        android:text="@string/category_cats"/>
+    <com.google.android.material.tabs.TabItem
+        android:id="@+id/tab_dog"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:icon="@drawable/ic_dog_black_48dp"
+        android:text="@string/category_dogs"/>
+    <com.google.android.material.tabs.TabItem
+        android:id="@+id/tab_other"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:icon="@drawable/ic_hospital_box_outline_black_48dp"
+        android:text="@string/category_others" />
+
+
+</com.google.android.material.tabs.TabLayout>
