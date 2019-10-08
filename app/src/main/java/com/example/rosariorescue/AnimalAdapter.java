@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<Animal> albumList;
+    private List<Animal> AnimalsList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, count;
@@ -38,20 +38,19 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHold
 
     public AnimalAdapter(Context mContext, List<Animal> albumList) {
         this.mContext = mContext;
-        this.albumList = albumList;
+        this.AnimalsList = albumList;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.album_card, parent, false);
+        View itemView = LayoutInflater.from(mContext).inflate(R.layout.animal_card, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Animal album = albumList.get(position);
+        Animal album = AnimalsList.get(position);
         holder.title.setText(album.getName());
         holder.count.setText(album.getNumOfSongs() + " games");
 
@@ -103,6 +102,6 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHold
 
     @Override
     public int getItemCount() {
-        return albumList.size();
+        return AnimalsList.size();
     }
 }

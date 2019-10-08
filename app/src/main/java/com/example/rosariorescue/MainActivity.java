@@ -25,6 +25,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,9 +34,10 @@ public class MainActivity extends AppCompatActivity {
     private AnimalAdapter animal;
     private List<Animal> AnimalsList;
 
-    private TabAdapter adapter;
+    //private TabAdapter adapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private ViewPagerAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +46,27 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        initCollapsingToolbar();
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout_selector);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
+        //add fragments here
+        viewPagerAdapter.AddFragment(new Fragment_Cats(), "Cats");
+        viewPagerAdapter.AddFragment(new Fragment_Dogs(), "Dogs");
+        viewPagerAdapter.AddFragment(new Fragment_Others(), "Others");
+
+
+
+        viewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_cat_black_48dp);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_dog_black_48dp);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_hospital_box_outline_black_48dp);
+
+       initCollapsingToolbar();
+
+       /*
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         AnimalsList = new ArrayList<>();
@@ -57,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(animal);
 
-        prepareAlbums();
+        prepareAlbums();*/
 
 
         try {
@@ -112,35 +133,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Adding few albums for testing
-     */
-    private void prepareAlbums() {
-        int[] covers = new int[]{
-                R.drawable.cat2,
-                R.drawable.cat3,
-                R.drawable.dog1,
-                R.drawable.dog2};
-
-        Animal a = new Animal("30-09-19", 13, covers[0]);
-        AnimalsList.add(a);
-
-        a = new Animal("29-09-19", 8, covers[1]);
-        AnimalsList.add(a);
-
-        a = new Animal("28-09-19", 11, covers[2]);
-        AnimalsList.add(a);
-
-        a = new Animal("27-09-19", 12, covers[3]);
-        AnimalsList.add(a);
-
-        animal.notifyDataSetChanged();
-    }
 
     /**
      * RecyclerView item decoration - give equal margin around grid item
      */
-    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+/*    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
         private int spanCount;
         private int spacing;
@@ -173,13 +170,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-    }
+    }*/
 
     /**
      * Converting dp to pixel
-     */
+     *//*
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }
+    }*/
 }

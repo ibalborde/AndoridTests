@@ -14,6 +14,8 @@ class Animal {
         this.thumbnail = thumbnail;
     }
 
+    //Getter
+
     public String getName() {
         return name;
     }
@@ -25,6 +27,8 @@ class Animal {
     public int getNumOfSongs() {
         return numOfSongs;
     }
+
+    //Setter
 
     public void setNumOfSongs(int numOfSongs) {
         this.numOfSongs = numOfSongs;
