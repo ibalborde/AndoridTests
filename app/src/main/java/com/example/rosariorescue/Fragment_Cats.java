@@ -18,7 +18,6 @@ public class Fragment_Cats extends Fragment {
 
     View v;
     private RecyclerView myRecyclerView;
-
     private List<Animal> listAnimal;
     private AnimalAdapter animalAdapter;
 
@@ -50,8 +49,7 @@ public class Fragment_Cats extends Fragment {
         int[] covers = new int[]{
                 R.drawable.cat2,
                 R.drawable.cat3,
-                R.drawable.dog1,
-                R.drawable.dog2};
+                R.drawable.cat4};
 
         Animal a = new Animal("30-09-19", 13, covers[0]);
         listAnimal.add(a);
@@ -62,8 +60,6 @@ public class Fragment_Cats extends Fragment {
         a = new Animal("28-09-19", 11, covers[2]);
         listAnimal.add(a);
 
-        a = new Animal("27-09-19", 12, covers[3]);
-        listAnimal.add(a);
 
     }
 }
