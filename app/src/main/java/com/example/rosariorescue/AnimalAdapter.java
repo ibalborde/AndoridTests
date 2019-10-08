@@ -1,5 +1,6 @@
 package com.example.rosariorescue;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -7,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,17 +23,20 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHold
 
     private Context mContext;
     private List<Animal> AnimalsList;
+    private Dialog mDialog;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, count;
-        public ImageView thumbnail, overflow;
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        private TextView title, count;
+        private ImageView thumbnail, overflow;
+        private LinearLayout item_animal;
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.title);
-            count = (TextView) view.findViewById(R.id.count);
-            thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-            overflow = (ImageView) view.findViewById(R.id.overflow);
+            item_animal = view.findViewById(R.id.animal_item);
+            title = view.findViewById(R.id.title);
+            count = view.findViewById(R.id.count);
+            thumbnail = view.findViewById(R.id.thumbnail);
+            overflow = view.findViewById(R.id.overflow);
         }
     }
 
@@ -44,6 +49,22 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHold
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.animal_card, parent, false);
+
+            final MyViewHolder viewHolder = new MyViewHolder(itemView);
+
+            viewHolder.item_animal.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                  Toast.makeText(v.getContext(), "Test Click%d",Toast.LENGTH_SHORT).show();
+                }
+            });
+            viewHolder.thumbnail.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    Toast.makeText(mContext, "test image click", Toast.LENGTH_SHORT).show();
+                }
+            });
+
 
         return new MyViewHolder(itemView);
     }
