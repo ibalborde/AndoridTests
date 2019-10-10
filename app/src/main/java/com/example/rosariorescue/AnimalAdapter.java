@@ -2,6 +2,7 @@ package com.example.rosariorescue;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,42 +21,56 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHolder> {
 
     private Context mContext;
     private List<Animal> AnimalsList;
     private Dialog mDialog;
+    private OnAnimalCardListener mOnAnimalCardLister;
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, count, description;
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        private TextView title, count;
         private ImageView thumbnail, overflow;
         private LinearLayout item_animal;
-        public CardView mCardView;
+        OnAnimalCardListener onAnimalCardListener;
 
 
-        public MyViewHolder(View view) {
-            super(view);
-            mCardView = view.findViewById(R.id.card_view);
-            item_animal = view.findViewById(R.id.animal_item);
-            title = view.findViewById(R.id.title);
-            count = view.findViewById(R.id.count);
-            thumbnail = view.findViewById(R.id.thumbnail);
-            overflow = view.findViewById(R.id.overflow);
-            description = view.findViewById(R.id.description);
+
+        public MyViewHolder(View itemView, OnAnimalCardListener onAnimalCardListener) {
+            super(itemView);
+            item_animal = itemView.findViewById(R.id.animal_item);
+            title = itemView.findViewById(R.id.title);
+            count = itemView.findViewById(R.id.count);
+            thumbnail = itemView.findViewById(R.id.thumbnail);
+            overflow = itemView.findViewById(R.id.overflow);
+
+            this.onAnimalCardListener = onAnimalCardListener;
+
+            itemView.setOnClickListener(this);
+            thumbnail.setOnClickListener(this);
+
         }
 
+        @Override
+        public void onClick(View v) {
+            onAnimalCardListener.onAnimalCardClick(getAdapterPosition());
+        }
     }
 
-    public AnimalAdapter(Context mContext, List<Animal> albumList) {
+    public AnimalAdapter(Context mContext, List<Animal> animalList, OnAnimalCardListener onAnimalCardListener) {
         this.mContext = mContext;
-        this.AnimalsList = albumList;
+        this.AnimalsList = animalList;
+        this.mOnAnimalCardLister = onAnimalCardListener;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.animal_card, parent, false);
 
-            final MyViewHolder viewHolder = new MyViewHolder(itemView);
+        final MyViewHolder viewHolder = new MyViewHolder(itemView, mOnAnimalCardLister);
 
         return viewHolder;
     }
@@ -65,7 +80,6 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHold
         Animal animal = AnimalsList.get(position);
         holder.title.setText(animal.getName());
         holder.count.setText(animal.getNumOfSongs() + " games");
-        holder.mCardView.setTag(position);
 
         // loading album cover using Glide library
         Glide.with(mContext).load(animal.getThumbnail()).into(holder.thumbnail);
@@ -117,5 +131,9 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHold
     @Override
     public int getItemCount() {
         return AnimalsList.size();
+    }
+
+    public interface OnAnimalCardListener{
+        void onAnimalCardClick(int position);
     }
 }

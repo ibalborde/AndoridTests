@@ -14,12 +14,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class Fragment_Dogs extends Fragment {
+public class Fragment_Dogs extends Fragment implements AnimalAdapter.OnAnimalCardListener {
 
     View v;
     private RecyclerView myRecyclerView;
 
-    private List<Animal> listAnimal;
+    private List<Animal> AnimalsList;
     private AnimalAdapter animalAdapter;
 
     public Fragment_Dogs() {
@@ -31,7 +31,7 @@ public class Fragment_Dogs extends Fragment {
         v = inflater.inflate(R.layout.fragment_dogs, container, false);
 
         myRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_dogs);
-        animalAdapter = new AnimalAdapter(getContext(), listAnimal);
+        animalAdapter = new AnimalAdapter(getContext(), AnimalsList, this);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         myRecyclerView.setAdapter(animalAdapter);
 
@@ -42,7 +42,7 @@ public class Fragment_Dogs extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        listAnimal = new ArrayList<>();
+        AnimalsList = new ArrayList<>();
 
         prepareAlbums();
     }
@@ -57,24 +57,29 @@ public class Fragment_Dogs extends Fragment {
                 R.drawable.dog6};
 
         Animal a = new Animal("30-09-19", 13, covers[0], "Test Description");
-        listAnimal.add(a);
+        AnimalsList.add(a);
 
         a = new Animal("29-09-19", 8, covers[1], "Test Description");
-        listAnimal.add(a);
+        AnimalsList.add(a);
 
         a = new Animal("28-09-19", 11, covers[2], "Test Description");
-        listAnimal.add(a);
+        AnimalsList.add(a);
 
         a = new Animal("12-09-19", 13, covers[3], "Test Description");
-        listAnimal.add(a);
+        AnimalsList.add(a);
 
         a = new Animal("03-09-19", 8, covers[4], "Test Description");
-        listAnimal.add(a);
+        AnimalsList.add(a);
 
         a = new Animal("18-09-19", 11, covers[5], "Test Description");
-        listAnimal.add(a);
+        AnimalsList.add(a);
 
 
+
+    }
+
+    @Override
+    public void onAnimalCardClick(int position) {
 
     }
 }
