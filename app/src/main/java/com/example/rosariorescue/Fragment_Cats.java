@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,19 +46,20 @@ public class Fragment_Cats extends Fragment {
         prepareAlbums();
     }
 
+
     private void prepareAlbums() {
         int[] covers = new int[]{
                 R.drawable.cat2,
                 R.drawable.cat3,
                 R.drawable.cat4};
 
-        Animal a = new Animal("30-09-19", 13, covers[0]);
+        Animal a = new Animal("30-09-19", 13, covers[0], "Test Description");
         listAnimal.add(a);
 
-        a = new Animal("29-09-19", 8, covers[1]);
+        a = new Animal("29-09-19", 8, covers[1], "Test Description");
         listAnimal.add(a);
 
-        a = new Animal("28-09-19", 11, covers[2]);
+        a = new Animal("28-09-19", 11, covers[2], "Test Description");
         listAnimal.add(a);
 
 

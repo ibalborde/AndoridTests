@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import androidx.appcompat.widget.PopupMenu;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHolder> {
@@ -26,20 +27,24 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHold
     private Dialog mDialog;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, count;
+        private TextView title, count, description;
         private ImageView thumbnail, overflow;
         private LinearLayout item_animal;
+        public CardView mCardView;
+
 
         public MyViewHolder(View view) {
             super(view);
+            mCardView = view.findViewById(R.id.card_view);
             item_animal = view.findViewById(R.id.animal_item);
             title = view.findViewById(R.id.title);
             count = view.findViewById(R.id.count);
             thumbnail = view.findViewById(R.id.thumbnail);
             overflow = view.findViewById(R.id.overflow);
+            description = view.findViewById(R.id.description);
         }
-    }
 
+    }
 
     public AnimalAdapter(Context mContext, List<Animal> albumList) {
         this.mContext = mContext;
@@ -52,31 +57,18 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHold
 
             final MyViewHolder viewHolder = new MyViewHolder(itemView);
 
-            viewHolder.item_animal.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                  Toast.makeText(v.getContext(), "Test Click%d",Toast.LENGTH_SHORT).show();
-                }
-            });
-            viewHolder.thumbnail.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    Toast.makeText(mContext, "test image click", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-
-        return new MyViewHolder(itemView);
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Animal album = AnimalsList.get(position);
-        holder.title.setText(album.getName());
-        holder.count.setText(album.getNumOfSongs() + " games");
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        Animal animal = AnimalsList.get(position);
+        holder.title.setText(animal.getName());
+        holder.count.setText(animal.getNumOfSongs() + " games");
+        holder.mCardView.setTag(position);
 
         // loading album cover using Glide library
-        Glide.with(mContext).load(album.getThumbnail()).into(holder.thumbnail);
+        Glide.with(mContext).load(animal.getThumbnail()).into(holder.thumbnail);
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +112,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHold
             return false;
         }
     }
+
 
     @Override
     public int getItemCount() {

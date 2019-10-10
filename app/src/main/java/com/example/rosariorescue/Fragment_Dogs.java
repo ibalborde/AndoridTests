@@ -56,22 +56,22 @@ public class Fragment_Dogs extends Fragment {
                 R.drawable.dog5,
                 R.drawable.dog6};
 
-        Animal a = new Animal("30-09-19", 13, covers[0]);
+        Animal a = new Animal("30-09-19", 13, covers[0], "Test Description");
         listAnimal.add(a);
 
-        a = new Animal("29-09-19", 8, covers[1]);
+        a = new Animal("29-09-19", 8, covers[1], "Test Description");
         listAnimal.add(a);
 
-        a = new Animal("28-09-19", 11, covers[2]);
+        a = new Animal("28-09-19", 11, covers[2], "Test Description");
         listAnimal.add(a);
 
-        a = new Animal("12-09-19", 13, covers[3]);
+        a = new Animal("12-09-19", 13, covers[3], "Test Description");
         listAnimal.add(a);
 
-        a = new Animal("03-09-19", 8, covers[4]);
+        a = new Animal("03-09-19", 8, covers[4], "Test Description");
         listAnimal.add(a);
 
-        a = new Animal("18-09-19", 11, covers[5]);
+        a = new Animal("18-09-19", 11, covers[5], "Test Description");
         listAnimal.add(a);
 
 

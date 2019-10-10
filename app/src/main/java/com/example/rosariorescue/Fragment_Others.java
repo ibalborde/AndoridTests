@@ -57,25 +57,25 @@ public class Fragment_Others extends Fragment {
                 R.drawable.other7,
                 R.drawable.other8};
 
-        Animal a = new Animal("30-09-19", 13, covers[0]);
+        Animal a = new Animal("30-09-19", 13, covers[0], "Test Description");
         listAnimal.add(a);
 
-        a = new Animal("29-09-19", 8, covers[1]);
+        a = new Animal("29-09-19", 8, covers[1], "Test Description");
         listAnimal.add(a);
 
-        a = new Animal("28-09-19", 11, covers[2]);
+        a = new Animal("28-09-19", 11, covers[2], "Test Description");
         listAnimal.add(a);
 
-        a = new Animal("29-09-19", 8, covers[3]);
+        a = new Animal("29-09-19", 8, covers[3], "Test Description");
         listAnimal.add(a);
 
-        a = new Animal("28-09-19", 11, covers[4]);
+        a = new Animal("28-09-19", 11, covers[4], "Test Description");
         listAnimal.add(a);
 
-        a = new Animal("29-09-19", 8, covers[5]);
+        a = new Animal("29-09-19", 8, covers[5], "Test Description");
         listAnimal.add(a);
 
-        a = new Animal("28-09-19", 11, covers[6]);
+        a = new Animal("28-09-19", 11, covers[6], "Test Description");
         listAnimal.add(a);
 
 
