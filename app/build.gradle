@@ -1,4 +1,18 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/'}
+    }
+    dependencies {
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.12.6'
+    }
+}
+
+repositories {
+    maven { url 'https://maven.google.com' }
+}
 
 android {
     compileSdkVersion 29
@@ -16,6 +30,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    defaultConfig {
+        manifestPlaceholders = [
+                onesignal_app_id: '8eb1aacc-f13c-4ebe-86c1-310e749802f2',
+                // Project number pulled from dashboard, local value is ignored.
+                onesignal_google_project_number: 'REMOTE'
+        ]
     }
 }
 
@@ -46,6 +68,10 @@ dependencies {
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.10.0'
+
+    //OneSignal
+    implementation 'com.onesignal:OneSignal:3.10.9'
+
 
 
 }

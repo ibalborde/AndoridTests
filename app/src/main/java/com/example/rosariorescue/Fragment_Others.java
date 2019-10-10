@@ -1,9 +1,12 @@
 package com.example.rosariorescue;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,11 @@ public class Fragment_Others extends Fragment implements AnimalAdapter.OnAnimalC
     private RecyclerView myRecyclerView;
     private List<Animal> AnimalsList;
     private AnimalAdapter animalAdapter;
+    private Animal animal;
+    private Dialog mDialog;
+    private TextView descriptionDialog;
+    private ImageView imageDialog;
+
 
     public Fragment_Others() {
     }
@@ -83,6 +91,17 @@ public class Fragment_Others extends Fragment implements AnimalAdapter.OnAnimalC
 
     @Override
     public void onAnimalCardClick(int position) {
+        mDialog = new Dialog(getContext());
+        mDialog.setContentView(R.layout.dialog_animal);
+
+        animal = AnimalsList.get(position);
+
+        descriptionDialog = mDialog.findViewById(R.id.dialog_description_id);
+        imageDialog = mDialog.findViewById(R.id.dialog_image_id);
+
+        descriptionDialog.setText(animal.getDescription());
+        imageDialog.setImageResource(animal.getThumbnail());
+        mDialog.show();
 
     }
 }

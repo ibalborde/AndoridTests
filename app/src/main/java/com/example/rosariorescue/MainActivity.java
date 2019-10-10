@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,6 +23,10 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.onesignal.OSNotification;
+import com.onesignal.OneSignal;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +88,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Seccion for test oneSignalNotifications
+        // OneSignal Initialization
+/*
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .init();
+*/
+
+        OneSignal.startInit(this)
+                .setNotificationReceivedHandler(new ExampleNotificationReceivedHandler())
+                .init();
+
+    }
+
+    class ExampleNotificationReceivedHandler implements OneSignal.NotificationReceivedHandler {
+        @Override
+        public void notificationReceived(OSNotification notification) {
+            JSONObject data = notification.payload.additionalData;
+            String customKey;
+
+            Log.i("OneSignalExample", "Recibi la noti");
+
+            if (data != null) {
+                customKey = data.optString("customkey", null);
+                if (customKey != null)
+                    Log.i("OneSignalExample", "customkey set with value: " + customKey);
+            }
+        }
     }
 
     /**
