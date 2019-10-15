@@ -37,7 +37,7 @@ public class Fragment_Dogs extends Fragment implements AnimalAdapter.OnAnimalCar
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_dogs, container, false);
 
-        myRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_dogs);
+        myRecyclerView = v.findViewById(R.id.recycler_view_dogs);
         animalAdapter = new AnimalAdapter(getContext(), AnimalsList, this);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         myRecyclerView.setAdapter(animalAdapter);
@@ -63,22 +63,22 @@ public class Fragment_Dogs extends Fragment implements AnimalAdapter.OnAnimalCar
                 R.drawable.dog5,
                 R.drawable.dog6};
 
-        Animal a = new Animal("30-09-19", 13, covers[0], "Test Description");
+        Animal a = new Animal("30-09-19", 13, covers[0], "Test Description", 1);
         AnimalsList.add(a);
 
-        a = new Animal("29-09-19", 8, covers[1], "Test Description");
+        a = new Animal("29-09-19", 8, covers[1], "Test Description", 1);
         AnimalsList.add(a);
 
-        a = new Animal("28-09-19", 11, covers[2], "Test Description");
+        a = new Animal("28-09-19", 11, covers[2], "Test Description", 1);
         AnimalsList.add(a);
 
-        a = new Animal("12-09-19", 13, covers[3], "Test Description");
+        a = new Animal("12-09-19", 13, covers[3], "Test Description", 1);
         AnimalsList.add(a);
 
-        a = new Animal("03-09-19", 8, covers[4], "Test Description");
+        a = new Animal("03-09-19", 8, covers[4], "Test Description", 1);
         AnimalsList.add(a);
 
-        a = new Animal("18-09-19", 11, covers[5], "Test Description");
+        a = new Animal("18-09-19", 11, covers[5], "Test Description", 1);
         AnimalsList.add(a);
 
 
@@ -92,8 +92,8 @@ public class Fragment_Dogs extends Fragment implements AnimalAdapter.OnAnimalCar
 
         animal = AnimalsList.get(position);
 
-        descriptionDialog = mDialog.findViewById(R.id.dialog_description_id);
-        imageDialog = mDialog.findViewById(R.id.dialog_image_id);
+        descriptionDialog = mDialog.findViewById(R.id.description_dialog);
+        imageDialog = mDialog.findViewById(R.id.image_dialog);
 
         descriptionDialog.setText(animal.getDescription());
         imageDialog.setImageResource(animal.getThumbnail());

@@ -19,4 +19,14 @@
     <dimen name="ic_album_overflow_width">20dp</dimen>
     <dimen name="ic_album_overflow_height">30dp</dimen>
     <dimen name="ic_album_overflow_margin_top">10dp</dimen>
+
+    <dimen name="animal_dialog_height">200dp</dimen>
+    <dimen name="animal_description_padding">25dp</dimen>
+    <dimen name="animal_description">25dp</dimen>
+
+    <dimen name="card_dialog_margin">8dp</dimen>
+    <dimen name="card_dialog_image">200dp</dimen>
+
+
+
 </resources>

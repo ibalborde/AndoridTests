@@ -37,7 +37,7 @@ public class Fragment_Others extends Fragment implements AnimalAdapter.OnAnimalC
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_others, container, false);
-        myRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_others);
+        myRecyclerView = v.findViewById(R.id.recycler_view_others);
         animalAdapter = new AnimalAdapter(getContext(), AnimalsList, this);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         myRecyclerView.setAdapter(animalAdapter);
@@ -65,25 +65,25 @@ public class Fragment_Others extends Fragment implements AnimalAdapter.OnAnimalC
                 R.drawable.other7,
                 R.drawable.other8};
 
-        Animal a = new Animal("30-09-19", 13, covers[0], "Test Description");
+        Animal a = new Animal("30-09-19", 13, covers[0], "Test Description", 1);
         AnimalsList.add(a);
 
-        a = new Animal("29-09-19", 8, covers[1], "Test Description");
+        a = new Animal("29-09-19", 8, covers[1], "Test Description", 1);
         AnimalsList.add(a);
 
-        a = new Animal("28-09-19", 11, covers[2], "Test Description");
+        a = new Animal("28-09-19", 11, covers[2], "Test Description", 1);
         AnimalsList.add(a);
 
-        a = new Animal("29-09-19", 8, covers[3], "Test Description");
+        a = new Animal("29-09-19", 8, covers[3], "Test Description", 1);
         AnimalsList.add(a);
 
-        a = new Animal("28-09-19", 11, covers[4], "Test Description");
+        a = new Animal("28-09-19", 11, covers[4], "Test Description", 1);
         AnimalsList.add(a);
 
-        a = new Animal("29-09-19", 8, covers[5], "Test Description");
+        a = new Animal("29-09-19", 8, covers[5], "Test Description", 1);
         AnimalsList.add(a);
 
-        a = new Animal("28-09-19", 11, covers[6], "Test Description");
+        a = new Animal("28-09-19", 11, covers[6], "Test Description", 1);
         AnimalsList.add(a);
 
 
@@ -96,8 +96,8 @@ public class Fragment_Others extends Fragment implements AnimalAdapter.OnAnimalC
 
         animal = AnimalsList.get(position);
 
-        descriptionDialog = mDialog.findViewById(R.id.dialog_description_id);
-        imageDialog = mDialog.findViewById(R.id.dialog_image_id);
+        descriptionDialog = mDialog.findViewById(R.id.description_dialog);
+        imageDialog = mDialog.findViewById(R.id.image_dialog);
 
         descriptionDialog.setText(animal.getDescription());
         imageDialog.setImageResource(animal.getThumbnail());

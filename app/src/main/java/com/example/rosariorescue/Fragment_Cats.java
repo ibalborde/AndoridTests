@@ -1,14 +1,15 @@
 package com.example.rosariorescue;
 
 import android.app.Dialog;
-import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +19,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 public class Fragment_Cats extends Fragment implements AnimalAdapter.OnAnimalCardListener {
 
     View v;
-    private RecyclerView myRecyclerView;
+    private RecyclerView myRecyclerView, recyclerViewForDialog;
+    private ViewPager viewPager;
     private List<Animal> AnimalsList;
     private AnimalAdapter animalAdapter;
+    private AnimalAdapterDialog animalAdapterDialog;
     private Animal animal;
     private Dialog mDialog;
     private TextView descriptionDialog;
@@ -37,10 +41,17 @@ public class Fragment_Cats extends Fragment implements AnimalAdapter.OnAnimalCar
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_cats, container, false);
-        myRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_cats);
+        View b = inflater.inflate(R.layout.dialog_animal_pager, container, false);
+        myRecyclerView =  v.findViewById(R.id.recycler_view_cats);
         animalAdapter = new AnimalAdapter(getContext(), AnimalsList, this);
+
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         myRecyclerView.setAdapter(animalAdapter);
+
+//        viewPager = b.findViewById(R.id.viewPagerDialog);
+//        viewPager.setAdapter(animalAdapterDialog);
+//        viewPager.setPadding(130, 0, 130, 0);
+
 
         return v;
     }
@@ -52,7 +63,10 @@ public class Fragment_Cats extends Fragment implements AnimalAdapter.OnAnimalCar
         AnimalsList = new ArrayList<>();
 
         prepareAlbums();
+
+
     }
+
 
 
     private void prepareAlbums() {
@@ -61,27 +75,31 @@ public class Fragment_Cats extends Fragment implements AnimalAdapter.OnAnimalCar
                 R.drawable.cat3,
                 R.drawable.cat4};
 
-        Animal a = new Animal("30-09-19", 13, covers[0], "Test Description cat1");
+        Animal a = new Animal("Cuco", 13, covers[0], "Test Description cat1", 1);
         AnimalsList.add(a);
 
-        a = new Animal("29-09-19", 8, covers[1], "Test Description cat2");
+        a = new Animal("Gato2", 8, covers[1], "Test Description cat2", 0);
         AnimalsList.add(a);
 
-        a = new Animal("28-09-19", 11, covers[2], "Test Description cat3");
+        a = new Animal("Gato3", 11, covers[2], "Test Description cat3", 1);
         AnimalsList.add(a);
 
 
     }
 
+
+
     @Override
     public void onAnimalCardClick(int position) {
+
         mDialog = new Dialog(getContext());
         mDialog.setContentView(R.layout.dialog_animal);
 
+
         animal = AnimalsList.get(position);
 
-        descriptionDialog = mDialog.findViewById(R.id.dialog_description_id);
-        imageDialog = mDialog.findViewById(R.id.dialog_image_id);
+        descriptionDialog = mDialog.findViewById(R.id.description_dialog);
+        imageDialog = mDialog.findViewById(R.id.image_dialog);
 
         descriptionDialog.setText(animal.getDescription());
         imageDialog.setImageResource(animal.getThumbnail());

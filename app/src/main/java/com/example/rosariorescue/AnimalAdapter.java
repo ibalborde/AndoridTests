@@ -2,12 +2,15 @@ package com.example.rosariorescue;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +23,7 @@ import java.util.List;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -32,7 +36,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHold
 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView title, count;
+        private TextView title, status;
         private ImageView thumbnail, overflow;
         private LinearLayout item_animal;
         OnAnimalCardListener onAnimalCardListener;
@@ -43,7 +47,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHold
             super(itemView);
             item_animal = itemView.findViewById(R.id.animal_item);
             title = itemView.findViewById(R.id.title);
-            count = itemView.findViewById(R.id.count);
+            status = itemView.findViewById(R.id.count);
             thumbnail = itemView.findViewById(R.id.thumbnail);
             overflow = itemView.findViewById(R.id.overflow);
 
@@ -58,6 +62,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHold
         public void onClick(View v) {
             onAnimalCardListener.onAnimalCardClick(getAdapterPosition());
         }
+
     }
 
     public AnimalAdapter(Context mContext, List<Animal> animalList, OnAnimalCardListener onAnimalCardListener) {
@@ -79,8 +84,12 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.MyViewHold
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         Animal animal = AnimalsList.get(position);
         holder.title.setText(animal.getName());
-        holder.count.setText(animal.getNumOfSongs() + " games");
-
+        if (AnimalsList.get(position).getStatus() == 0){
+            holder.status.setText("Buscado");
+        }
+        else{
+            holder.status.setText("Encontrado");
+        }
         // loading album cover using Glide library
         Glide.with(mContext).load(animal.getThumbnail()).into(holder.thumbnail);
 

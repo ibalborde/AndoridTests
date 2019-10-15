@@ -5,15 +5,18 @@ class Animal {
     private int numOfSongs;
     private int thumbnail;
     private String description;
+    private int status; //0 buscado, 1 encontrado
 
     public Animal() {
     }
 
-    public Animal(String name, int numOfSongs, int thumbnail, String description) {
+    public Animal(String name, int numOfSongs, int thumbnail, String description, int status) {
         this.name = name;
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
         this.description = description;
+        this.status = status;
+
     }
 
     //Getter
@@ -34,6 +37,10 @@ class Animal {
         return description;
     }
 
+    public int getStatus(){
+        return status;
+    }
+
     //Setter
 
     public void setNumOfSongs(int numOfSongs) {
@@ -50,6 +57,10 @@ class Animal {
 
     public void setDescription (String description){
         this.description = description;
+    }
+
+    public void setStatus (int status){
+        this.status = status;
     }
 }
 
