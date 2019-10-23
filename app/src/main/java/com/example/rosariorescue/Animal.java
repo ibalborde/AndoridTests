@@ -2,7 +2,7 @@ package com.example.rosariorescue;
 
 class Animal {
     private String name;
-    private int numOfSongs;
+    private int numOfPhtos;
     private int thumbnail;
     private String description;
     private int status; //0 buscado, 1 encontrado
@@ -10,9 +10,9 @@ class Animal {
     public Animal() {
     }
 
-    public Animal(String name, int numOfSongs, int thumbnail, String description, int status) {
+    public Animal(String name, int numOfPhtos, int thumbnail, String description, int status) {
         this.name = name;
-        this.numOfSongs = numOfSongs;
+        this.numOfPhtos = numOfPhtos;
         this.thumbnail = thumbnail;
         this.description = description;
         this.status = status;
@@ -29,8 +29,8 @@ class Animal {
         return thumbnail;
     }
 
-    public int getNumOfSongs() {
-        return numOfSongs;
+    public int getNumOfPhtos() {
+        return numOfPhtos;
     }
 
     public String getDescription(){
@@ -43,8 +43,8 @@ class Animal {
 
     //Setter
 
-    public void setNumOfSongs(int numOfSongs) {
-        this.numOfSongs = numOfSongs;
+    public void setNumOfPhtos(int numOfPhtos) {
+        this.numOfPhtos = numOfPhtos;
     }
 
     public void setName(String name) {
