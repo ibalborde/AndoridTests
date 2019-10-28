@@ -1,16 +1,12 @@
 package com.example.rosariorescue;
 
-import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -24,10 +20,6 @@ public class Fragment_Dogs extends Fragment implements AnimalAdapter.OnAnimalCar
 
     private List<Animal> AnimalsList;
     private AnimalAdapter animalAdapter;
-    private Animal animal;
-    private Dialog mDialog;
-    private TextView descriptionDialog;
-    private ImageView imageDialog;
 
     public Fragment_Dogs() {
     }
@@ -81,22 +73,13 @@ public class Fragment_Dogs extends Fragment implements AnimalAdapter.OnAnimalCar
         a = new Animal("18-09-19", 11, covers[5], "Test Description", 1);
         AnimalsList.add(a);
 
-
-
     }
 
     @Override
     public void onAnimalCardClick(int position) {
-        mDialog = new Dialog(getContext());
-        mDialog.setContentView(R.layout.dialog_animal);
-
-        animal = AnimalsList.get(position);
-
-        descriptionDialog = mDialog.findViewById(R.id.description_dialog);
-        imageDialog = mDialog.findViewById(R.id.image_dialog);
-
-        descriptionDialog.setText(animal.getDescription());
-        imageDialog.setImageResource(animal.getThumbnail());
-        mDialog.show();
+        Intent intent = new Intent(getContext(), AnimalFullDescription.class);
+        intent.putExtra("animal_position", position);
+        intent.putExtra("animal_type", "dogs");
+        getContext().startActivity(intent);
     }
 }

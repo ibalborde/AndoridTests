@@ -1,38 +1,25 @@
 package com.example.rosariorescue;
 
-import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 public class Fragment_Cats extends Fragment implements AnimalAdapter.OnAnimalCardListener {
 
     View v;
-    private RecyclerView myRecyclerView, recyclerViewForDialog;
-    private ViewPager viewPager;
+    private RecyclerView myRecyclerView;
     private List<Animal> AnimalsList;
     private AnimalAdapter animalAdapter;
-    private AnimalAdapterDialog animalAdapterDialog;
-    private Animal animal;
-    private Dialog mDialog;
-    private TextView descriptionDialog;
-    private ImageView imageDialog;
 
     public Fragment_Cats() {
     }
@@ -48,11 +35,6 @@ public class Fragment_Cats extends Fragment implements AnimalAdapter.OnAnimalCar
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         myRecyclerView.setAdapter(animalAdapter);
 
-//        viewPager = b.findViewById(R.id.viewPagerDialog);
-//        viewPager.setAdapter(animalAdapterDialog);
-//        viewPager.setPadding(130, 0, 130, 0);
-
-
         return v;
     }
 
@@ -63,11 +45,7 @@ public class Fragment_Cats extends Fragment implements AnimalAdapter.OnAnimalCar
         AnimalsList = new ArrayList<>();
 
         prepareAlbums();
-
-
     }
-
-
 
     private void prepareAlbums() {
         int[] covers = new int[]{
@@ -83,26 +61,16 @@ public class Fragment_Cats extends Fragment implements AnimalAdapter.OnAnimalCar
 
         a = new Animal("Gato3", 11, covers[2], "Test Description cat3", 1);
         AnimalsList.add(a);
-
-
     }
-
 
 
     @Override
     public void onAnimalCardClick(int position) {
 
-        mDialog = new Dialog(getContext());
-        mDialog.setContentView(R.layout.dialog_animal);
-
-
-        animal = AnimalsList.get(position);
-
-        descriptionDialog = mDialog.findViewById(R.id.description_dialog);
-        imageDialog = mDialog.findViewById(R.id.image_dialog);
-
-        descriptionDialog.setText(animal.getDescription());
-        imageDialog.setImageResource(animal.getThumbnail());
-        mDialog.show();
+        Log.d("DAT","Position " + position);
+        Intent intent = new Intent(getContext(), AnimalFullDescription.class);
+        intent.putExtra("animal_position", position);
+        intent.putExtra("animal_type", "cats");
+        getContext().startActivity(intent);
     }
 }
