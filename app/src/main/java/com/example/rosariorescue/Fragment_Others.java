@@ -1,6 +1,7 @@
 package com.example.rosariorescue;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ public class Fragment_Others extends Fragment implements AnimalAdapter.OnAnimalC
     private Dialog mDialog;
     private TextView descriptionDialog;
     private ImageView imageDialog;
+    private String status;
 
 
     public Fragment_Others() {
@@ -101,7 +103,13 @@ public class Fragment_Others extends Fragment implements AnimalAdapter.OnAnimalC
 
         descriptionDialog.setText(animal.getDescription());
         imageDialog.setImageResource(animal.getThumbnail());
-        mDialog.show();
+        status = animal.getStatus() == 0 ? "Buscado" : "Encontrado";
+//        mDialog.show();
 
+        Intent intent = new Intent(getContext(), AnimalFullDescription.class);
+        intent.putExtra("animal_image", animal.getThumbnail());
+        intent.putExtra("animal_status", status);
+        intent.putExtra("animal_description", animal.getDescription());
+        getContext().startActivity(intent);
     }
 }
