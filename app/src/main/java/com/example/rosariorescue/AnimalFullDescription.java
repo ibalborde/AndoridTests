@@ -1,7 +1,5 @@
 package com.example.rosariorescue;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,15 +11,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
-
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +34,7 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
 
     @Override
     protected void onCreate(@Nullable Bundle saveInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(saveInstanceState);
         setContentView(R.layout.animal_full_information);
         AnimalsList = new ArrayList<>();

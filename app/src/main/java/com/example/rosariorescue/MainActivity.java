@@ -1,22 +1,12 @@
 package com.example.rosariorescue;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-
-import android.content.res.Resources;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TableLayout;
-
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -25,19 +15,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.onesignal.OSNotification;
 import com.onesignal.OneSignal;
-
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
 
 public class MainActivity extends AppCompatActivity {
-
-
-    private RecyclerView recyclerView;
-    private AnimalAdapter animal;
-    private List<Animal> AnimalsList;
 
     //private TabAdapter adapter;
     private TabLayout tabLayout;
@@ -46,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar =  findViewById(R.id.toolbar);
