@@ -1,7 +1,6 @@
 package com.example.rosariorescue;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +15,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.onesignal.OSNotification;
 import com.onesignal.OneSignal;
 import org.json.JSONObject;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
