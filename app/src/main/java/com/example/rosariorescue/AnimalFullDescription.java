@@ -1,29 +1,24 @@
 package com.example.rosariorescue;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
-
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class AnimalFullDescription extends AppCompatActivity implements View.OnClickListener {
-    private int animal_image;
     private String animal_status;
     private String animal_description;
     private int animal_position;
@@ -33,6 +28,8 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
     private ViewPager viewPager;
     private AdapterForAnimalsPager animalPagerAdapter;
     private ImageButton button_next, button_previous;
+    private LinearLayout dotsIndicator;
+    private ImageView[] dots;
 
     @Override
     protected void onCreate(@Nullable Bundle saveInstanceState) {
@@ -67,7 +64,26 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
             viewPager.setAdapter(animalPagerAdapter);
         }
 
+        //dots
+        dotsIndicator = findViewById(R.id.dots_indicator);
+        createDots(0);
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                createDots(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -225,6 +241,28 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
         Log.d("DAT", "previous " + previous_slide);
         if(previous_slide >= 0){
             viewPager.setCurrentItem(previous_slide);
+        }
+    }
+
+    private void createDots(int currentPosition){
+        if(dotsIndicator != null){
+            dotsIndicator.removeAllViews();
+        }
+        int length = animal.getNumOfPhtos();
+        Log.d("DAT", "CantFotos "+ length);
+        dots = new ImageView[length];
+        for(int i = 0; i < length; i++){
+            dots[i] = new ImageView(this);
+            if(i == currentPosition){
+                dots[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.active_dots));
+            }else{
+                dots[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.inactive_dots));
+            }
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(4,0,4,0);
+
+            dotsIndicator.addView(dots[i], params);
         }
     }
 }
