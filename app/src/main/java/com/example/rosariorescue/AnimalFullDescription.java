@@ -1,8 +1,10 @@
 package com.example.rosariorescue;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +12,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +47,7 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
         //toolbar
         Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.baseline_keyboard_arrow_left_white_48);
+        mToolbar.setNavigationIcon(R.drawable.baseline_keyboard_arrow_left_white_36);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,10 +93,25 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
         });
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivityForResult(myIntent, 0);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+        //startActivityForResult(myIntent, 0);
+
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                        Toast.makeText(getApplicationContext(), "Share Photo!", Toast.LENGTH_LONG).show();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private List<Animal> getIncomingIntent(String animal_types, int animal_position) {
