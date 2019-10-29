@@ -2,10 +2,13 @@ package com.example.rosariorescue;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +22,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnimalFullDescription extends AppCompatActivity {
+public class AnimalFullDescription extends AppCompatActivity implements View.OnClickListener {
     private int animal_image;
     private String animal_status;
     private String animal_description;
@@ -29,6 +32,7 @@ public class AnimalFullDescription extends AppCompatActivity {
     private Animal animal;
     private ViewPager viewPager;
     private AdapterForAnimalsPager animalPagerAdapter;
+    private ImageButton button_next, button_previous;
 
     @Override
     protected void onCreate(@Nullable Bundle saveInstanceState) {
@@ -46,6 +50,11 @@ public class AnimalFullDescription extends AppCompatActivity {
                 finish();
             }
         });
+
+        button_next = findViewById(R.id.btn_next);
+        button_previous = findViewById(R.id.btn_previous);
+        button_next.setOnClickListener(this);
+        button_previous.setOnClickListener(this);
 
         if (getIntent().hasExtra("animal_type") && getIntent().hasExtra("animal_position")) {
             animal_types = getIntent().getStringExtra("animal_type");
@@ -186,5 +195,36 @@ public class AnimalFullDescription extends AppCompatActivity {
         AnimalsList.add(a);
 
         return AnimalsList;
+    }
+
+
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.btn_next:
+                loadNextSlide();
+                break;
+            case R.id.btn_previous:
+                loadPreviousSlide();
+                break;
+        }
+    }
+
+    private void loadNextSlide(){
+        int next_slide = viewPager.getCurrentItem()+1;
+        Log.d("DAT", "next " + next_slide);
+        if(next_slide < animal.getNumOfPhtos()){
+            viewPager.setCurrentItem(next_slide);
+        }
+    }
+
+    private void loadPreviousSlide(){
+        int previous_slide = viewPager.getCurrentItem()-1;
+        Log.d("DAT", "previous " + previous_slide);
+        if(previous_slide >= 0){
+            viewPager.setCurrentItem(previous_slide);
+        }
     }
 }
