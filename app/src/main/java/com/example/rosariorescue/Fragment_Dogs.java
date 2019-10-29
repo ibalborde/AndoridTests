@@ -47,30 +47,31 @@ public class Fragment_Dogs extends Fragment implements AnimalAdapter.OnAnimalCar
     }
 
     private void prepareAlbums() {
-        int[] covers = new int[]{
-                R.drawable.dog1,
-                R.drawable.dog2,
-                R.drawable.dog3,
-                R.drawable.dog4,
-                R.drawable.dog5,
-                R.drawable.dog6};
+        List<Integer> cover1 = new ArrayList<>();
+        List<Integer> cover2 = new ArrayList<>();
+        List<Integer> cover3 = new ArrayList<>();
+        List<Integer> cover4 = new ArrayList<>();
+        List<Integer> cover5 = new ArrayList<>();
+        cover1.add(R.drawable.dog1);
+        cover1.add(R.drawable.dog2);
+        cover2.add(R.drawable.dog3);
+        cover3.add(R.drawable.dog4);
+        cover4.add(R.drawable.dog5);
+        cover5.add(R.drawable.dog6);
 
-        Animal a = new Animal("30-09-19", 13, covers[0], "Test Description", 1);
+        Animal a = new Animal("30-09-19", 2, cover1.get(0), "Test Description", 1, cover1);
         AnimalsList.add(a);
 
-        a = new Animal("29-09-19", 8, covers[1], "Test Description", 1);
+        a = new Animal("29-09-19", 1, cover2.get(0), "Test Description", 1, cover2);
         AnimalsList.add(a);
 
-        a = new Animal("28-09-19", 11, covers[2], "Test Description", 1);
+        a = new Animal("28-09-19", 1, cover3.get(0), "Test Description", 1, cover3);
         AnimalsList.add(a);
 
-        a = new Animal("12-09-19", 13, covers[3], "Test Description", 1);
+        a = new Animal("12-09-19", 1, cover4.get(0), "Test Description", 1, cover4);
         AnimalsList.add(a);
 
-        a = new Animal("03-09-19", 8, covers[4], "Test Description", 1);
-        AnimalsList.add(a);
-
-        a = new Animal("18-09-19", 11, covers[5], "Test Description", 1);
+        a = new Animal("03-09-19", 1, cover5.get(0), "Test Description", 1, cover5);
         AnimalsList.add(a);
 
     }

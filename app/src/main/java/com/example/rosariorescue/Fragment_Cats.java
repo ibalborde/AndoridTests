@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,18 +49,23 @@ public class Fragment_Cats extends Fragment implements AnimalAdapter.OnAnimalCar
     }
 
     private void prepareAlbums() {
-        int[] covers = new int[]{
-                R.drawable.cat2,
-                R.drawable.cat3,
-                R.drawable.cat4};
+        List<Integer> cover1 = new ArrayList<>();
+        List<Integer> cover2 = new ArrayList<>();
+        List<Integer> cover3 = new ArrayList<>();
+        cover1.add(R.drawable.cat2);
+        cover1.add(R.drawable.cat3);
+        cover1.add(R.drawable.cat4);
+        cover2.add(R.drawable.cat3);
+        cover3.add(R.drawable.cat4);
 
-        Animal a = new Animal("Cuco", 13, covers[0], "Test Description cat1", 1);
+
+        Animal a = new Animal("Cuco", 3, cover1.get(0), "Test Description cat1", 1, cover1);
         AnimalsList.add(a);
 
-        a = new Animal("Gato2", 8, covers[1], "Test Description cat2", 0);
+        a = new Animal("Gato2", 1, cover2.get(0), "Test Description cat2", 1, cover2);
         AnimalsList.add(a);
 
-        a = new Animal("Gato3", 11, covers[2], "Test Description cat3", 1);
+        a = new Animal("Gato3", 1, cover3.get(0), "Test Description cat3", 0, cover3);
         AnimalsList.add(a);
     }
 
