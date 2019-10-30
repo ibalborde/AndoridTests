@@ -26,6 +26,8 @@ import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.share.Share;
+import com.facebook.share.model.SharePhoto;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,8 +65,6 @@ public class SocialLoginActivity extends AppCompatActivity {
         loginButtonFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivityForResult(myIntent, 0);
 
             }
 
@@ -85,6 +85,10 @@ public class SocialLoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         callbackManager.onActivityResult(requestCode,resultCode,data);
         super.onActivityResult(requestCode, resultCode, data);
+
+        Intent myIntent = new Intent(this, SharePhotos.class);
+        startActivity(myIntent);
+
     }
 
     AccessTokenTracker tokenTracker = new AccessTokenTracker() {

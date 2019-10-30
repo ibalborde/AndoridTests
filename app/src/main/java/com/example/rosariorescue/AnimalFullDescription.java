@@ -20,6 +20,7 @@ import androidx.viewpager.widget.ViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class AnimalFullDescription extends AppCompatActivity implements View.OnClickListener {
     private String animal_status;
     private String animal_description;
@@ -102,10 +103,9 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
 
         switch (item.getItemId()) {
             case R.id.action_share:
-                        Intent myIntent = new Intent(getApplicationContext(), SocialLoginActivity.class);
+                        Intent myIntent = new Intent(this, SocialLoginActivity.class);
                         Toast.makeText(getApplicationContext(), "Share Photo!", Toast.LENGTH_LONG).show();
                         startActivity(myIntent);
-
 
                 return true;
             default:
@@ -117,13 +117,13 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
 
         switch (animal_types) {
             case "cats":
-                auxAnimalList = prepareAlbumsCats();
+                auxAnimalList = StaticAlbums.AnimalsListCats;
                 break;
             case "dogs":
-                auxAnimalList = prepareAlbumsDogs();
+                auxAnimalList = StaticAlbums.AnimalsListDogs;
                 break;
             case "others":
-                auxAnimalList = prepareAlbumsOthers();
+                auxAnimalList = StaticAlbums.AnimalsListOthers;
                 break;
             default:
                 break;
@@ -145,95 +145,6 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
         animal_Description.setText(description);
 
     }
-
-    //Estos albums deberia estar en base de datos(GOTO) :D
-
-    private List<Animal> prepareAlbumsOthers() {
-        List<Integer> cover1 = new ArrayList<>();
-        List<Integer> cover2 = new ArrayList<>();
-        List<Integer> cover3 = new ArrayList<>();
-        List<Integer> cover4 = new ArrayList<>();
-        List<Integer> cover5 = new ArrayList<>();
-        cover1.add(R.drawable.other2);
-        cover1.add(R.drawable.other3);
-        cover1.add(R.drawable.other8);
-        cover2.add(R.drawable.other4);
-        cover3.add(R.drawable.other5);
-        cover4.add(R.drawable.other6);
-        cover5.add(R.drawable.other7);
-
-        Animal a = new Animal("30-09-19", 3, cover1.get(0), "Test Description", 1, cover1);
-        AnimalsList.add(a);
-
-        a = new Animal("29-09-19", 1, cover2.get(0), "Test Description", 1, cover2);
-        AnimalsList.add(a);
-
-        a = new Animal("28-09-19", 1, cover3.get(0), "Test Description", 1, cover3);
-        AnimalsList.add(a);
-
-        a = new Animal("29-09-19", 1, cover4.get(0), "Test Description", 1, cover4);
-        AnimalsList.add(a);
-
-        a = new Animal("28-09-19", 1, cover5.get(0), "Test Description", 1, cover5);
-        AnimalsList.add(a);
-
-        return AnimalsList;
-    }
-
-    private List<Animal> prepareAlbumsCats() {
-        List<Integer> cover1 = new ArrayList<>();
-        List<Integer> cover2 = new ArrayList<>();
-        List<Integer> cover3 = new ArrayList<>();
-        cover1.add(R.drawable.cat2);
-        cover1.add(R.drawable.cat3);
-        cover1.add(R.drawable.cat4);
-        cover2.add(R.drawable.cat3);
-        cover3.add(R.drawable.cat4);
-
-
-        Animal a = new Animal("Cuco", 3, cover1.get(0), "Test Description cat1", 1, cover1);
-        AnimalsList.add(a);
-
-        a = new Animal("Gato2", 1, cover2.get(0), "Test Description cat2", 1, cover2);
-        AnimalsList.add(a);
-
-        a = new Animal("Gato3", 1, cover3.get(0), "Test Description cat3", 0, cover3);
-        AnimalsList.add(a);
-
-        return AnimalsList;
-    }
-
-    private List<Animal> prepareAlbumsDogs() {
-        List<Integer> cover1 = new ArrayList<>();
-        List<Integer> cover2 = new ArrayList<>();
-        List<Integer> cover3 = new ArrayList<>();
-        List<Integer> cover4 = new ArrayList<>();
-        List<Integer> cover5 = new ArrayList<>();
-        cover1.add(R.drawable.dog1);
-        cover1.add(R.drawable.dog2);
-        cover2.add(R.drawable.dog3);
-        cover3.add(R.drawable.dog4);
-        cover4.add(R.drawable.dog5);
-        cover5.add(R.drawable.dog6);
-
-        Animal a = new Animal("30-09-19", 2, cover1.get(0), "Test Description", 1, cover1);
-        AnimalsList.add(a);
-
-        a = new Animal("29-09-19", 1, cover2.get(0), "Test Description", 1, cover2);
-        AnimalsList.add(a);
-
-        a = new Animal("28-09-19", 1, cover3.get(0), "Test Description", 1, cover3);
-        AnimalsList.add(a);
-
-        a = new Animal("12-09-19", 1, cover4.get(0), "Test Description", 1, cover4);
-        AnimalsList.add(a);
-
-        a = new Animal("03-09-19", 1, cover5.get(0), "Test Description", 1, cover5);
-        AnimalsList.add(a);
-
-        return AnimalsList;
-    }
-
 
 
     @Override

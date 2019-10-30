@@ -21,6 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".AnimalFullDescription"/>
+        <activity android:name=".SocialLoginActivity"/>
+        <activity android:name=".SharePhotos"/>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
