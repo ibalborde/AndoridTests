@@ -1,5 +1,6 @@
 package com.example.rosariorescue;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -101,7 +102,10 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
 
         switch (item.getItemId()) {
             case R.id.action_share:
+                        Intent myIntent = new Intent(getApplicationContext(), SocialLoginActivity.class);
                         Toast.makeText(getApplicationContext(), "Share Photo!", Toast.LENGTH_LONG).show();
+                        startActivity(myIntent);
+
 
                 return true;
             default:
