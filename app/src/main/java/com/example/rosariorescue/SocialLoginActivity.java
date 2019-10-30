@@ -7,11 +7,13 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -39,6 +41,7 @@ import java.util.Arrays;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SocialLoginActivity extends AppCompatActivity {
+    String TAG = "SocialLoginActivity";
 
     private LoginButton loginButtonFacebook;
     private CircleImageView circleImageViewFacebook;
@@ -46,12 +49,25 @@ public class SocialLoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private static final String EMAIL = "email";
     private static final String PUBLIC_PROFILE = "public_profile";
+    private int animal_position;
+    private String animal_types;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+
+        //toolbar
+        Toolbar mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.drawable.baseline_keyboard_arrow_left_white_36);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         loginButtonFacebook = findViewById(R.id.login_button_facebook);
         textEmailFacebook = findViewById(R.id.profile_email);
@@ -86,9 +102,22 @@ public class SocialLoginActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode,resultCode,data);
         super.onActivityResult(requestCode, resultCode, data);
 
-        Intent myIntent = new Intent(this, SharePhotos.class);
-        startActivity(myIntent);
+        goToShare();
 
+    }
+
+    public void goToShare(){
+        if (getIntent().hasExtra("animal_type") && getIntent().hasExtra("animal_position")) {
+            animal_types = getIntent().getStringExtra("animal_type");
+            animal_position = getIntent().getIntExtra("animal_position", 0);
+        }
+
+        Log.d(TAG, "type and pos: " + animal_types + " " + animal_position );
+
+        Intent myIntent = new Intent(this, SharePhotos.class);
+        myIntent.putExtra("animal_position", animal_position);
+        myIntent.putExtra("animal_type", animal_types);
+        startActivity(myIntent);
     }
 
     AccessTokenTracker tokenTracker = new AccessTokenTracker() {
@@ -148,6 +177,7 @@ public class SocialLoginActivity extends AppCompatActivity {
         if(AccessToken.getCurrentAccessToken()!=null)
         {
             loadUserProfile(AccessToken.getCurrentAccessToken());
+            goToShare();
         }
     }
 

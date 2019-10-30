@@ -43,32 +43,9 @@ public class Fragment_Cats extends Fragment implements AnimalAdapter.OnAnimalCar
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        AnimalsList = new ArrayList<>();
+        AnimalsList = StaticAlbums.AnimalsListCats;
 
-        prepareAlbums();
     }
-
-    private void prepareAlbums() {
-        List<Integer> cover1 = new ArrayList<>();
-        List<Integer> cover2 = new ArrayList<>();
-        List<Integer> cover3 = new ArrayList<>();
-        cover1.add(R.drawable.cat2);
-        cover1.add(R.drawable.cat3);
-        cover1.add(R.drawable.cat4);
-        cover2.add(R.drawable.cat3);
-        cover3.add(R.drawable.cat4);
-
-
-        Animal a = new Animal("Cuco", 3, cover1.get(0), "Test Description cat1", 1, cover1);
-        AnimalsList.add(a);
-
-        a = new Animal("Gato2", 1, cover2.get(0), "Test Description cat2", 1, cover2);
-        AnimalsList.add(a);
-
-        a = new Animal("Gato3", 1, cover3.get(0), "Test Description cat3", 0, cover3);
-        AnimalsList.add(a);
-    }
-
 
     @Override
     public void onAnimalCardClick(int position) {

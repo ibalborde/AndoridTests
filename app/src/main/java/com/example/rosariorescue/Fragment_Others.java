@@ -40,39 +40,7 @@ public class Fragment_Others extends Fragment implements AnimalAdapter.OnAnimalC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        AnimalsList = new ArrayList<>();
-
-        prepareAlbums();
-    }
-
-    private void prepareAlbums() {
-        List<Integer> cover1 = new ArrayList<>();
-        List<Integer> cover2 = new ArrayList<>();
-        List<Integer> cover3 = new ArrayList<>();
-        List<Integer> cover4 = new ArrayList<>();
-        List<Integer> cover5 = new ArrayList<>();
-        cover1.add(R.drawable.other2);
-        cover1.add(R.drawable.other3);
-        cover1.add(R.drawable.other8);
-        cover2.add(R.drawable.other4);
-        cover3.add(R.drawable.other5);
-        cover4.add(R.drawable.other6);
-        cover5.add(R.drawable.other7);
-
-        Animal a = new Animal("30-09-19", 3, cover1.get(0), "Test Description", 1, cover1);
-        AnimalsList.add(a);
-
-        a = new Animal("29-09-19", 1, cover2.get(0), "Test Description", 1, cover2);
-        AnimalsList.add(a);
-
-        a = new Animal("28-09-19", 1, cover3.get(0), "Test Description", 1, cover3);
-        AnimalsList.add(a);
-
-        a = new Animal("29-09-19", 1, cover4.get(0), "Test Description", 1, cover4);
-        AnimalsList.add(a);
-
-        a = new Animal("28-09-19", 1, cover5.get(0), "Test Description", 1, cover5);
-        AnimalsList.add(a);
+        AnimalsList = StaticAlbums.AnimalsListOthers;
     }
 
     @Override

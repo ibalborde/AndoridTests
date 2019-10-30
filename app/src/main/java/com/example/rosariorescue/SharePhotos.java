@@ -1,22 +1,17 @@
 package com.example.rosariorescue;
-
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.share.Share;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
@@ -24,8 +19,8 @@ import com.facebook.share.widget.ShareDialog;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.lang.annotation.Annotation;
-import java.lang.annotation.ElementType;
+import java.util.List;
+
 
 public class SharePhotos extends AppCompatActivity {
 
@@ -33,7 +28,11 @@ public class SharePhotos extends AppCompatActivity {
     CallbackManager callbackManager;
     ShareDialog shareDialog;
     ImageView photoToShare;
-    String urlImageTest = "https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/report/5cdea8075cafe8e321b1859a/sexoanimal1_0.jpg";
+    List<Animal> auxAnimalList;
+    Animal auxAnimal;
+    int auxAnimalImage;
+    int animal_position;
+    String animal_types;
 
     Target target = new Target() {
         @Override
@@ -41,7 +40,7 @@ public class SharePhotos extends AppCompatActivity {
             SharePhoto sharePhoto = new SharePhoto.Builder()
                     .setBitmap(bitmap)
                     .build();
-            if(shareDialog.canShow(SharePhotoContent.class)){
+            if (shareDialog.canShow(SharePhotoContent.class)) {
                 SharePhotoContent content = new SharePhotoContent.Builder()
                         .addPhoto(sharePhoto)
                         .build();
@@ -61,9 +60,8 @@ public class SharePhotos extends AppCompatActivity {
     };
 
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
@@ -83,9 +81,32 @@ public class SharePhotos extends AppCompatActivity {
         buttonSharedPhoto = findViewById(R.id.button_share_photo);
         photoToShare = findViewById(R.id.image_to_share);
 
-        Picasso.with(getBaseContext())
-                .load(urlImageTest)
-                .into(photoToShare);
+
+        if (getIntent().hasExtra("animal_type") && getIntent().hasExtra("animal_position")) {
+            animal_types = getIntent().getStringExtra("animal_type");
+            animal_position = getIntent().getIntExtra("animal_position", 0);
+
+            switch (animal_types) {
+                case "cats":
+                    auxAnimalList = StaticAlbums.AnimalsListCats;
+                    break;
+                case "dogs":
+                    auxAnimalList = StaticAlbums.AnimalsListDogs;
+                    break;
+                case "others":
+                    auxAnimalList = StaticAlbums.AnimalsListOthers;
+                    break;
+                default:
+                    break;
+            }
+
+            auxAnimal = auxAnimalList.get(animal_position);
+            auxAnimalImage = auxAnimal.getThumbnail();
+            Picasso.with(getBaseContext())
+                    .load(auxAnimalImage)
+                    .into(photoToShare);
+        }
+
 
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
@@ -112,12 +133,10 @@ public class SharePhotos extends AppCompatActivity {
                 });
 
                 Picasso.with(getBaseContext())
-                       .load(urlImageTest)
-                       .into(target);
+                        .load(auxAnimalImage)
+                        .into(target);
             }
         });
-
-
-
     }
+
 }

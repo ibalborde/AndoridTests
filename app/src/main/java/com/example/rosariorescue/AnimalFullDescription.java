@@ -22,6 +22,7 @@ import java.util.List;
 
 
 public class AnimalFullDescription extends AppCompatActivity implements View.OnClickListener {
+    String TAG = "AnimalFullDescription";
     private String animal_status;
     private String animal_description;
     private int animal_position;
@@ -103,9 +104,11 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
 
         switch (item.getItemId()) {
             case R.id.action_share:
-                        Intent myIntent = new Intent(this, SocialLoginActivity.class);
-                        Toast.makeText(getApplicationContext(), "Share Photo!", Toast.LENGTH_LONG).show();
-                        startActivity(myIntent);
+                Log.d(TAG, "type and pos: " + animal_types +" "+ animal_position );
+                Intent myIntent = new Intent(this, SocialLoginActivity.class);
+                myIntent.putExtra("animal_position", animal_position);
+                myIntent.putExtra("animal_type", animal_types);
+                startActivity(myIntent);
 
                 return true;
             default:
