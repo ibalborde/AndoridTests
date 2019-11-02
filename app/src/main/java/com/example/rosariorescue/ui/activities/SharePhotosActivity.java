@@ -1,4 +1,5 @@
-package com.example.rosariorescue;
+package com.example.rosariorescue.ui.activities;
+
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -8,6 +9,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.example.rosariorescue.R;
+import com.example.rosariorescue.StaticAlbums;
+import com.example.rosariorescue.models.Animal;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -22,7 +27,7 @@ import com.squareup.picasso.Target;
 import java.util.List;
 
 
-public class SharePhotos extends AppCompatActivity {
+public class SharePhotosActivity extends AppCompatActivity {
 
     Button buttonSharedPhoto;
     CallbackManager callbackManager;

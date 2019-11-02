@@ -1,4 +1,4 @@
-package com.example.rosariorescue;
+package com.example.rosariorescue.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+
+import com.example.rosariorescue.R;
+import com.example.rosariorescue.models.Animal;
 
 import java.util.List;
 

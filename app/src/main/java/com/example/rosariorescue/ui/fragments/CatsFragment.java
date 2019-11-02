@@ -1,4 +1,4 @@
-package com.example.rosariorescue;
+package com.example.rosariorescue.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,8 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,14 +14,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class Fragment_Cats extends Fragment implements AnimalAdapter.OnAnimalCardListener {
+import com.example.rosariorescue.ui.activities.AnimalFullDescriptionActivity;
+import com.example.rosariorescue.R;
+import com.example.rosariorescue.StaticAlbums;
+import com.example.rosariorescue.adapters.AnimalAdapter;
+import com.example.rosariorescue.models.Animal;
+
+public class CatsFragment extends Fragment implements AnimalAdapter.OnAnimalCardListener {
 
     View v;
     private RecyclerView myRecyclerView;
     private List<Animal> AnimalsList;
     private AnimalAdapter animalAdapter;
 
-    public Fragment_Cats() {
+    public CatsFragment() {
     }
 
     @Nullable
@@ -49,9 +54,8 @@ public class Fragment_Cats extends Fragment implements AnimalAdapter.OnAnimalCar
 
     @Override
     public void onAnimalCardClick(int position) {
-
         Log.d("DAT","Position " + position);
-        Intent intent = new Intent(getContext(), AnimalFullDescription.class);
+        Intent intent = new Intent(getContext(), AnimalFullDescriptionActivity.class);
         intent.putExtra("animal_position", position);
         intent.putExtra("animal_type", "cats");
         getContext().startActivity(intent);

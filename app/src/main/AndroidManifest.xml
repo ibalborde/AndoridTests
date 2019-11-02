@@ -13,16 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/SplashTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AnimalFullDescription"/>
-        <activity android:name=".SocialLoginActivity"/>
-        <activity android:name=".SharePhotos"/>
+        <activity android:name=".ui.activities.AnimalFullDescriptionActivity"/>
+        <activity android:name=".ui.activities.SocialLoginActivity"/>
+        <activity android:name=".ui.activities.SharePhotosActivity"/>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>

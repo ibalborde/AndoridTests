@@ -1,4 +1,4 @@
-package com.example.rosariorescue;
+package com.example.rosariorescue.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,21 +9,25 @@ import android.widget.LinearLayout;
 
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.example.rosariorescue.R;
+import com.example.rosariorescue.models.Animal;
+
 import java.util.List;
 
-public class AdapterForAnimalsPager extends PagerAdapter {
+public class AnimalsPagerAdapter extends PagerAdapter {
+
     Context context;
     LayoutInflater inflater;
     Animal animal;
 
-    public AdapterForAnimalsPager(Context context, Animal animal) {
+    public AnimalsPagerAdapter(Context context, Animal animal) {
         this.context = context;
         this.animal = animal;
     }
 
     @Override
     public int getCount() {
-        return animal.getNumOfPhtos();
+        return animal.getPhotosCount();
     }
 
     @Override

@@ -1,14 +1,20 @@
-package com.example.rosariorescue;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
+package com.example.rosariorescue.ui.activities;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
+
 import com.bumptech.glide.Glide;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
+import com.example.rosariorescue.ui.fragments.CatsFragment;
+import com.example.rosariorescue.ui.fragments.DogsFragment;
+import com.example.rosariorescue.ui.fragments.OthersFragment;
+import com.example.rosariorescue.R;
+import com.example.rosariorescue.adapters.ViewPagerAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -16,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.onesignal.OSNotification;
 import com.onesignal.OneSignal;
+
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,22 +34,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
+        this.setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar =  findViewById(R.id.toolbar);
+        this.setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        tabLayout =  findViewById(R.id.tab_layout_selector);
-        viewPager =  findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.tab_layout_selector);
+        viewPager = findViewById(R.id.viewPager);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         //add fragments here
-        viewPagerAdapter.AddFragment(new Fragment_Cats(), "Cats");
-        viewPagerAdapter.AddFragment(new Fragment_Dogs(), "Dogs");
-        viewPagerAdapter.AddFragment(new Fragment_Others(), "Others");
-
-
+        viewPagerAdapter.AddFragment(new CatsFragment(), "Cats");
+        viewPagerAdapter.AddFragment(new DogsFragment(), "Dogs");
+        viewPagerAdapter.AddFragment(new OthersFragment(), "Others");
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -98,9 +104,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initCollapsingToolbar() {
         final CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+                findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(" ");
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+        AppBarLayout appBarLayout = findViewById(R.id.appbar);
         appBarLayout.setExpanded(true);
 
         // hiding & showing the title when toolbar expanded & collapsed

@@ -1,4 +1,4 @@
-package com.example.rosariorescue;
+package com.example.rosariorescue.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,18 +11,25 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
+
+import com.example.rosariorescue.R;
+import com.example.rosariorescue.StaticAlbums;
+import com.example.rosariorescue.adapters.AnimalsPagerAdapter;
+import com.example.rosariorescue.models.Animal;
+import com.example.rosariorescue.ui.activities.SocialLoginActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class AnimalFullDescription extends AppCompatActivity implements View.OnClickListener {
-    String TAG = "AnimalFullDescription";
+public class AnimalFullDescriptionActivity extends AppCompatActivity implements View.OnClickListener {
+    String TAG = "AnimalFullDescriptionActivity";
     private String animal_status;
     private String animal_description;
     private int animal_position;
@@ -30,7 +37,7 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
     private List<Animal> AnimalsList, auxAnimalList;
     private Animal animal;
     private ViewPager viewPager;
-    private AdapterForAnimalsPager animalPagerAdapter;
+    private AnimalsPagerAdapter animalPagerAdapter;
     private ImageButton button_next, button_previous;
     private LinearLayout dotsIndicator;
     private ImageView[] dots;
@@ -65,7 +72,7 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
             AnimalsList = getIncomingIntent(animal_types, animal_position);
 
             viewPager = findViewById(R.id.viewPagerFullDescription);
-            animalPagerAdapter = new AdapterForAnimalsPager(this, AnimalsList.get(animal_position));
+            animalPagerAdapter = new AnimalsPagerAdapter(this, AnimalsList.get(animal_position));
             viewPager.setAdapter(animalPagerAdapter);
         }
 
@@ -166,7 +173,7 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
     private void loadNextSlide(){
         int next_slide = viewPager.getCurrentItem()+1;
         Log.d("DAT", "next " + next_slide);
-        if(next_slide < animal.getNumOfPhtos()){
+        if(next_slide < animal.getPhotosCount()){
             viewPager.setCurrentItem(next_slide);
         }
     }
@@ -183,7 +190,7 @@ public class AnimalFullDescription extends AppCompatActivity implements View.OnC
         if(dotsIndicator != null){
             dotsIndicator.removeAllViews();
         }
-        int length = animal.getNumOfPhtos();
+        int length = animal.getPhotosCount();
         Log.d("DAT", "CantFotos "+ length);
         dots = new ImageView[length];
         for(int i = 0; i < length; i++){

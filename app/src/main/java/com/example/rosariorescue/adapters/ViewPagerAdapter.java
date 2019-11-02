@@ -1,4 +1,4 @@
-package com.example.rosariorescue;
+package com.example.rosariorescue.adapters;
 
 import java.util.ArrayList;
 import java.util.List;

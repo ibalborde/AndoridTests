@@ -1,11 +1,7 @@
-package com.example.rosariorescue;
+package com.example.rosariorescue.ui.activities;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -17,25 +13,20 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.rosariorescue.R;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.facebook.share.Share;
-import com.facebook.share.model.SharePhoto;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -114,7 +105,7 @@ public class SocialLoginActivity extends AppCompatActivity {
 
         Log.d(TAG, "type and pos: " + animal_types + " " + animal_position );
 
-        Intent myIntent = new Intent(this, SharePhotos.class);
+        Intent myIntent = new Intent(this, SharePhotosActivity.class);
         myIntent.putExtra("animal_position", animal_position);
         myIntent.putExtra("animal_type", animal_types);
         startActivity(myIntent);
