@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Initializing collapsing toolbar
-     * Will show and hide the toolbar title on scroll
+     * Will show and hide the toolbar titleTextView on scroll
      */
     private void initCollapsingToolbar() {
         final CollapsingToolbarLayout collapsingToolbar =
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         AppBarLayout appBarLayout = findViewById(R.id.appbar);
         appBarLayout.setExpanded(true);
 
-        // hiding & showing the title when toolbar expanded & collapsed
+        // hiding & showing the titleTextView when toolbar expanded & collapsed
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;

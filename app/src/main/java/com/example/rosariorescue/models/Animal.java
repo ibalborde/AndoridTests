@@ -12,7 +12,6 @@ public class Animal {
 
     private String description;
 
-    //0 buscado, 1 encontrado
     private int status;
 
     private List<Integer> photos;
@@ -53,6 +52,18 @@ public class Animal {
 
     public List<Integer> getPhotos(){
         return photos;
+    }
+
+    public boolean isBuscado() {
+        return this.status == 0;
+    }
+
+    public boolean isEncontrado() {
+        return this.status == 1;
+    }
+
+    public String getStatusString() {
+        return isBuscado() ? "Buscado" : "Encontrado";
     }
 
 }

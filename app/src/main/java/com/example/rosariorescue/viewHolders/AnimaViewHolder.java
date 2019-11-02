@@ -1,41 +1,55 @@
 package com.example.rosariorescue.viewHolders;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.rosariorescue.R;
 import com.example.rosariorescue.adapters.AnimalAdapter;
+import com.example.rosariorescue.models.Animal;
 
 public class AnimaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     // MARK: - UI Components
 
-    public TextView title;
-    public TextView status;
-    public ImageView thumbnail;
-    private ImageView overflow;
-    private LinearLayout item_animal;
-    AnimalAdapter.OnAnimalCardListener onAnimalCardListener;
+    private TextView titleTextView;
+
+    private TextView statusTextView;
+
+    private ImageView thumbnailImageView;
+
+    private AnimalAdapter.OnAnimalCardListener onAnimalCardListener;
 
     // MARK: - Init
 
     public AnimaViewHolder(View itemView, AnimalAdapter.OnAnimalCardListener onAnimalCardListener) {
         super(itemView);
-        item_animal = itemView.findViewById(R.id.animal_item);
-        title = itemView.findViewById(R.id.title);
-        status = itemView.findViewById(R.id.count);
-        thumbnail = itemView.findViewById(R.id.thumbnail);
-        overflow = itemView.findViewById(R.id.overflow);
+
+        this.titleTextView = itemView.findViewById(R.id.title);
+        this.statusTextView = itemView.findViewById(R.id.count);
+        this.thumbnailImageView = itemView.findViewById(R.id.thumbnail);
 
         this.onAnimalCardListener = onAnimalCardListener;
 
-        itemView.setOnClickListener(this);
-        thumbnail.setOnClickListener(this);
+        this.itemView.setOnClickListener(this);
+        this.thumbnailImageView.setOnClickListener(this);
+    }
 
+    public void setAnimal(Animal animal) {
+        Context context = itemView.getContext();
+        String name = animal.getName();
+        String status = animal.getStatusString();
+        int thumbnail = animal.getThumbnail();
+
+        this.titleTextView.setText(name);
+        this.statusTextView.setText(status);
+
+        // loading album cover using Glide library
+        Glide.with(context).load(thumbnail).into(thumbnailImageView);
     }
 
     @Override

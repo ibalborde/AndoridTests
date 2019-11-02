@@ -52,16 +52,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimaViewHolder> {
     @Override
     public void onBindViewHolder(final AnimaViewHolder holder, final int position) {
         Animal animal = AnimalsList.get(position);
-        holder.title.setText(animal.getName());
-
-        if (AnimalsList.get(position).getStatus() == 0){
-            holder.status.setText("Buscado");
-        }
-        else{
-            holder.status.setText("Encontrado");
-        }
-        // loading album cover using Glide library
-        Glide.with(mContext).load(animal.getThumbnail()).into(holder.thumbnail);
+        holder.setAnimal(animal);
     }
 
 
