@@ -1,5 +1,6 @@
 package com.example.rosariorescue.ui.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,49 +8,48 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.rosariorescue.ui.activities.AnimalFullDescriptionActivity;
+import com.example.rosariorescue.AnimalDataSource;
 import com.example.rosariorescue.R;
-import com.example.rosariorescue.StaticAlbums;
 import com.example.rosariorescue.adapters.AnimalAdapter;
 import com.example.rosariorescue.models.Animal;
+import com.example.rosariorescue.ui.activities.AnimalFullDescriptionActivity;
 
-public class CatsFragment extends Fragment implements AnimalAdapter.OnAnimalCardListener {
+import java.util.List;
 
-    View v;
-    private RecyclerView myRecyclerView;
-    private List<Animal> AnimalsList;
-    private AnimalAdapter animalAdapter;
+public class AnimalsFragment extends Fragment implements AnimalAdapter.OnAnimalCardListener {
 
-    public CatsFragment() {
+    // MARK: - Data
+
+    private List<Animal> animals;
+
+    // MARK: - Init
+
+    public AnimalsFragment(AnimalDataSource dataSource) {
+        this.animals = dataSource.animals;
     }
+
+    // MARK: - Life Cycle
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_cats, container, false);
-        View b = inflater.inflate(R.layout.dialog_animal_pager, container, false);
-        myRecyclerView =  v.findViewById(R.id.recycler_view_cats);
-        animalAdapter = new AnimalAdapter(getContext(), AnimalsList, this);
+        Context context = container.getContext();
 
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        myRecyclerView.setAdapter(animalAdapter);
+        View view = inflater.inflate(R.layout.fragment_cats, container, false);
 
-        return v;
-    }
+        AnimalAdapter animalAdapter = new AnimalAdapter(context, animals, this);
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_cats);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(animalAdapter);
 
-        AnimalsList = StaticAlbums.AnimalsListCats;
-
+        return view;
     }
 
     @Override

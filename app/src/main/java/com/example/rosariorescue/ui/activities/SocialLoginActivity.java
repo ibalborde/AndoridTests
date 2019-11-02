@@ -32,7 +32,8 @@ import java.util.Arrays;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SocialLoginActivity extends AppCompatActivity {
-    String TAG = "SocialLoginActivity";
+
+    private static final String TAG = SocialLoginActivity.class.getSimpleName();
 
     private LoginButton loginButtonFacebook;
     private CircleImageView circleImageViewFacebook;
@@ -163,10 +164,8 @@ public class SocialLoginActivity extends AppCompatActivity {
 
     }
 
-    private void checkLoginStatus()
-    {
-        if(AccessToken.getCurrentAccessToken()!=null)
-        {
+    private void checkLoginStatus() {
+        if(AccessToken.getCurrentAccessToken() != null) {
             loadUserProfile(AccessToken.getCurrentAccessToken());
             goToShare();
         }

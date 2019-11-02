@@ -173,7 +173,7 @@ public class AnimalFullDescriptionActivity extends AppCompatActivity implements 
     private void loadNextSlide(){
         int next_slide = viewPager.getCurrentItem()+1;
         Log.d("DAT", "next " + next_slide);
-        if(next_slide < animal.getPhotosCount()){
+        if(next_slide < animal.getPhotos().size()){
             viewPager.setCurrentItem(next_slide);
         }
     }
@@ -190,7 +190,7 @@ public class AnimalFullDescriptionActivity extends AppCompatActivity implements 
         if(dotsIndicator != null){
             dotsIndicator.removeAllViews();
         }
-        int length = animal.getPhotosCount();
+        int length = animal.getPhotos().size();
         Log.d("DAT", "CantFotos "+ length);
         dots = new ImageView[length];
         for(int i = 0; i < length; i++){

@@ -10,9 +10,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.example.rosariorescue.ui.fragments.CatsFragment;
-import com.example.rosariorescue.ui.fragments.DogsFragment;
-import com.example.rosariorescue.ui.fragments.OthersFragment;
+import com.example.rosariorescue.AnimalDataSource;
+import com.example.rosariorescue.StaticAlbums;
 import com.example.rosariorescue.R;
 import com.example.rosariorescue.adapters.ViewPagerAdapter;
 import com.google.android.material.appbar.AppBarLayout;
@@ -27,11 +26,6 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-    //private TabAdapter adapter;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private ViewPagerAdapter viewPagerAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.setTheme(R.style.AppTheme);
@@ -41,23 +35,25 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        tabLayout = findViewById(R.id.tab_layout_selector);
-        viewPager = findViewById(R.id.viewPager);
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-
         //add fragments here
-        viewPagerAdapter.AddFragment(new CatsFragment(), "Cats");
-        viewPagerAdapter.AddFragment(new DogsFragment(), "Dogs");
-        viewPagerAdapter.AddFragment(new OthersFragment(), "Others");
+        AnimalDataSource catsDataSource = new AnimalDataSource("Cats", StaticAlbums.AnimalsListCats);
+        AnimalDataSource dogsDataSource = new AnimalDataSource("Dogs", StaticAlbums.AnimalsListDogs);
+        AnimalDataSource otherDataSource = new AnimalDataSource("Others", StaticAlbums.AnimalsListOthers);
 
+        ViewPager viewPager = findViewById(R.id.viewPager);
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter.addFragment(catsDataSource);
+        viewPagerAdapter.addFragment(dogsDataSource);
+        viewPagerAdapter.addFragment(otherDataSource);
         viewPager.setAdapter(viewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
 
+        TabLayout tabLayout = findViewById(R.id.tab_layout_selector);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_cat_black_48dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_dog_black_48dp);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_hospital_box_outline_black_48dp);
+        tabLayout.setupWithViewPager(viewPager);
 
-       initCollapsingToolbar();
+       this.initCollapsingToolbar();
 
         try {
             Glide.with(this).load(R.drawable.cat1).into((ImageView) findViewById(R.id.backdrop));

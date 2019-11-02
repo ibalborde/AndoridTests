@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.rosariorescue.R;
@@ -16,30 +17,37 @@ import java.util.List;
 
 public class AnimalsPagerAdapter extends PagerAdapter {
 
-    Context context;
-    LayoutInflater inflater;
-    Animal animal;
+    // MARK: - Data
+
+    private LayoutInflater inflater;
+
+    private Animal animal;
+
+    // MARK: - Init
 
     public AnimalsPagerAdapter(Context context, Animal animal) {
-        this.context = context;
+        this.inflater = LayoutInflater.from(context);
         this.animal = animal;
     }
 
+    // MARK: - PagerAdapter
+
     @Override
     public int getCount() {
-        return animal.getPhotosCount();
+        return animal.getPhotos().size();
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return (view==object);
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+        return view == object;
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
         List<Integer> photosList = animal.getPhotos();
-        inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.animal_pager_images,container,false);
+
         ImageView imgslide = view.findViewById(R.id.animal_image_full);
         imgslide.setImageResource(photosList.get(position));
         container.addView(view);
@@ -47,7 +55,8 @@ public class AnimalsPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(ViewGroup container, int position, @NonNull Object object) {
         container.removeView((LinearLayout)object);
     }
+
 }

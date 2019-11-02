@@ -1,6 +1,5 @@
 package com.example.rosariorescue.adapters;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -9,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.rosariorescue.R;
 import com.example.rosariorescue.models.Animal;
 import com.example.rosariorescue.viewHolders.AnimaViewHolder;
@@ -23,15 +22,20 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimaViewHolder> {
 
     // MARK: - Data
 
-    private Context mContext;
-    public List<Animal> AnimalsList;
+    private Context context;
+
+    private LayoutInflater inflater;
+
+    private List<Animal> animals;
+
     private OnAnimalCardListener mOnAnimalCardLister;
 
     // MARK: - Init
 
-    public AnimalAdapter(Context mContext, List<Animal> animalList, OnAnimalCardListener onAnimalCardListener) {
-        this.mContext = mContext;
-        this.AnimalsList = animalList;
+    public AnimalAdapter(Context context, List<Animal> animals, OnAnimalCardListener onAnimalCardListener) {
+        this.context = context;
+        this.inflater = LayoutInflater.from(context);
+        this.animals = animals;
         this.mOnAnimalCardLister = onAnimalCardListener;
     }
 
@@ -39,19 +43,20 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimaViewHolder> {
 
     @Override
     public int getItemCount() {
-        return AnimalsList.size();
+        return animals.size();
     }
 
+    @NonNull
     @Override
-    public AnimaViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
-        View itemView = LayoutInflater.from(mContext).inflate(R.layout.animal_card, parent, false);
+    public AnimaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, final int viewType) {
+        View itemView = inflater.inflate(R.layout.animal_card, parent, false);
 
         return new AnimaViewHolder(itemView, mOnAnimalCardLister);
     }
 
     @Override
     public void onBindViewHolder(final AnimaViewHolder holder, final int position) {
-        Animal animal = AnimalsList.get(position);
+        Animal animal = animals.get(position);
         holder.setAnimal(animal);
     }
 
@@ -62,7 +67,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimaViewHolder> {
      */
     private void showPopupMenu(View view) {
         // inflate menu
-        PopupMenu popup = new PopupMenu(mContext, view);
+        PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.menu_album, popup.getMenu());
         popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
@@ -74,17 +79,16 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimaViewHolder> {
      */
     class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
 
-        public MyMenuItemClickListener() {
-        }
+        public MyMenuItemClickListener() {}
 
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_add_favourite:
-                    Toast.makeText(mContext, "Add to favourite", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Add to favourite", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.action_play_next:
-                    Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Play next", Toast.LENGTH_SHORT).show();
                     return true;
                 default:
             }

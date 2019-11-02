@@ -38,10 +38,6 @@ public class Animal {
         return thumbnail;
     }
 
-    public int getPhotosCount() {
-        return photos.size();
-    }
-
     public String getDescription(){
         return description;
     }
