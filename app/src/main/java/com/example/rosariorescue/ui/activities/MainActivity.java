@@ -64,12 +64,9 @@ public class MainActivity extends AppCompatActivity {
         //adding floating button
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        fab.setOnClickListener(view ->  {
                 Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-            }
         });
 
         OneSignal.startInit(this)
