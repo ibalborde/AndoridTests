@@ -92,13 +92,13 @@ public class SharePhotosActivity extends AppCompatActivity {
             animal_position = getIntent().getIntExtra("animal_position", 0);
 
             switch (animal_types) {
-                case "cats":
+                case "CAT":
                     auxAnimalList = StaticAlbums.AnimalsListCats;
                     break;
-                case "dogs":
+                case "DOG":
                     auxAnimalList = StaticAlbums.AnimalsListDogs;
                     break;
-                case "others":
+                case "OTHER":
                     auxAnimalList = StaticAlbums.AnimalsListOthers;
                     break;
                 default:

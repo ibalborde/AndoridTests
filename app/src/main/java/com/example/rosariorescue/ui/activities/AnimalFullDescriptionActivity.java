@@ -126,22 +126,21 @@ public class AnimalFullDescriptionActivity extends AppCompatActivity implements 
     private List<Animal> getIncomingIntent(String animal_types, int animal_position) {
 
         switch (animal_types) {
-            case "cats":
+            case "CAT":
                 auxAnimalList = StaticAlbums.AnimalsListCats;
                 break;
-            case "dogs":
+            case "DOG":
                 auxAnimalList = StaticAlbums.AnimalsListDogs;
                 break;
-            case "others":
+            case "OTHER":
                 auxAnimalList = StaticAlbums.AnimalsListOthers;
                 break;
             default:
                 break;
         }
 
-        Log.d("DAT2", "Position " + getIntent().hasExtra("animal_position"));
         animal = auxAnimalList.get(animal_position);
-        animal_status = animal.getStatus() == 0 ? "Buscado" : "Encontrado";
+        animal_status = animal.getStatusString();
         animal_description = animal.getDescription();
 
         setInfo(animal_status, animal_description);

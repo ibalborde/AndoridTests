@@ -27,6 +27,7 @@ public class AnimalsFragment extends Fragment implements AnimalAdapter.OnAnimalC
     // MARK: - Data
 
     private List<Animal> animals;
+    private String animal_type;
 
     // MARK: - Init
 
@@ -49,15 +50,16 @@ public class AnimalsFragment extends Fragment implements AnimalAdapter.OnAnimalC
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(animalAdapter);
 
+        animal_type = view.getTransitionName();
+
         return view;
     }
 
     @Override
     public void onAnimalCardClick(int position) {
-        Log.d("DAT","Position " + position);
         Intent intent = new Intent(getContext(), AnimalFullDescriptionActivity.class);
         intent.putExtra("animal_position", position);
-        intent.putExtra("animal_type", "cats");
+        intent.putExtra("animal_type", animals.get(position).getAnimalTypeString());
         getContext().startActivity(intent);
     }
 }
