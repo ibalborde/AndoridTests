@@ -18,6 +18,8 @@
     <string name="status_wanted">Wanted</string>
     <string name="title_select_type">Select Type</string>
     <string name="button_add_animal">Add</string>
+    <string name="status">Status</string>
+    <string name="select_photos">Select Photos</string>
 
 
     <string name="facebook_app_id">451731489031892</string>

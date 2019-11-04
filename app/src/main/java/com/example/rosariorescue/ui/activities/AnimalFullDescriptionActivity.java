@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ import java.util.List;
 
 
 public class AnimalFullDescriptionActivity extends AppCompatActivity implements View.OnClickListener {
-    String TAG = "AnimalFullDescriptionActivity";
+    final String TAG = "AnimalFullDescription";
     private String animal_status;
     private String animal_description;
     private int animal_position;
@@ -100,8 +101,12 @@ public class AnimalFullDescriptionActivity extends AppCompatActivity implements 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_toolbar, menu);
+        MenuItem shareIcon = menu.findItem(R.id.action_share);
+        if(TAG.equals("AnimalFullDescription")){
+            shareIcon.setVisible(true);
+        }
         return true;
     }
 
