@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "939177397342",
+    "firebase_url": "https://rosariorescuetest.firebaseio.com",
+    "project_id": "rosariorescuetest",
+    "storage_bucket": "rosariorescuetest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939177397342:android:7614d0a88d645155c938cf",
+        "android_client_info": {
+          "package_name": "com.example.rosariorescue"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939177397342-6o7i5hvvqau7b2lclkcqq1jc3026mob4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0gJ5zL5kuag4DDRHxMuCP-aOw7xhAW90"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939177397342-6o7i5hvvqau7b2lclkcqq1jc3026mob4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

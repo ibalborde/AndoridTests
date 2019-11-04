@@ -1,12 +1,13 @@
 package com.example.rosariorescue.models;
 
+import java.util.Date;
 import java.util.List;
 
 public class Animal {
 
     // MARK: - Data
 
-    private String name;
+    private String fecha;
 
     private int thumbnail;
 
@@ -22,8 +23,8 @@ public class Animal {
 
     public Animal() {}
 
-    public Animal(String name, int thumbnail, String description, int status, List<Integer> photos, int animal_type) {
-        this.name = name;
+    public Animal(String fecha, int thumbnail, String description, int status, List<Integer> photos, int animal_type) {
+        this.fecha = fecha;
         this.thumbnail = thumbnail;
         this.description = description;
         this.status = status;
@@ -33,8 +34,8 @@ public class Animal {
 
     //Getter
 
-    public String getName() {
-        return name;
+    public String getFecha() {
+        return fecha;
     }
 
     public int getThumbnail() {

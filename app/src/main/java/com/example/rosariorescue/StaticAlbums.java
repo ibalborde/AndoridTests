@@ -1,11 +1,16 @@
 package com.example.rosariorescue;
 
+import android.text.format.DateUtils;
+
 import com.example.rosariorescue.models.Animal;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StaticAlbums {
+
+    public static final String DATE_FORMAT = "dd-MMM-yyyy";
+    //puclic static final String mDateTime = DateUtils.getDateFromTimeStamp(System.currentTimeMillis(),DATE_FORMAT)
 
     private static final List<Integer> coverOthers1 = new ArrayList<Integer>() {{
         add(R.drawable.other2);
@@ -25,7 +30,7 @@ public class StaticAlbums {
         add(R.drawable.other7);
     }};
 
-    private static final Animal other1 = new Animal("30-09-19", coverOthers1.get(0), "Test Description", 1, coverOthers1,2 );
+    private static final Animal other1 = new Animal("11-10-19", coverOthers1.get(0), "Test Description", 1, coverOthers1,2 );
     private static final Animal other2 = new Animal("29-09-19", coverOthers2.get(0), "Test Description", 1, coverOthers2,2);
     private static final Animal other3 = new Animal("28-09-19", coverOthers3.get(0), "Test Description", 1, coverOthers3,2);
     private static final Animal other4 = new Animal("29-09-19", coverOthers4.get(0), "Test Description", 1, coverOthers4,2);
@@ -54,8 +59,8 @@ public class StaticAlbums {
     }};
 
     private static final Animal cat1 = new Animal("Cuco", coverCats1.get(0), "Test Description cat1", 1, coverCats1,0);
-    private static final Animal cat2 = new Animal("Gato2", coverCats2.get(0), "Test Description cat2", 1, coverCats2,0);
-    private static final Animal cat3 = new Animal("Gato3", coverCats3.get(0), "Test Description cat3", 0, coverCats3,0);
+    private static final Animal cat2 = new Animal("23-09-19", coverCats2.get(0), "Test Description cat2", 1, coverCats2,0);
+    private static final Animal cat3 = new Animal("11-10-19", coverCats3.get(0), "Test Description cat3", 0, coverCats3,0);
 
     public static final List<Animal> AnimalsListCats = new ArrayList<Animal>() {{
         add(cat1);

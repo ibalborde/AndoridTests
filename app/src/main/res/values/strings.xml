@@ -11,6 +11,13 @@
     <string name="category_others">Others</string>
     <string name="animal_description"> Write a description here</string>
     <string name="share_photo">Share Photo</string>
+    <string name="type_cat">Cat</string>
+    <string name="type_dog">Dog</string>
+    <string name="type_other">Other</string>
+    <string name="status_found">Found</string>
+    <string name="status_wanted">Wanted</string>
+    <string name="title_select_type">Select Type</string>
+    <string name="button_add_animal">Add</string>
 
 
     <string name="facebook_app_id">451731489031892</string>

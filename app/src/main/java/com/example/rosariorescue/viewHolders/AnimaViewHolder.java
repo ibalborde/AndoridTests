@@ -41,7 +41,7 @@ public class AnimaViewHolder extends RecyclerView.ViewHolder implements View.OnC
 
     public void setAnimal(Animal animal) {
         Context context = itemView.getContext();
-        String name = animal.getName();
+        String name = animal.getFecha();
         String status = animal.getStatusString();
         int thumbnail = animal.getThumbnail();
 

@@ -23,6 +23,7 @@
         <activity android:name=".ui.activities.AnimalFullDescriptionActivity"/>
         <activity android:name=".ui.activities.SocialLoginActivity"/>
         <activity android:name=".ui.activities.SharePhotosActivity"/>
+        <activity android:name=".ui.activities.AddAnimal"/>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
