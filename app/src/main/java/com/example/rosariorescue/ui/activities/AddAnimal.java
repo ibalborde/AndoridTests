@@ -96,7 +96,6 @@ public class AddAnimal extends AppCompatActivity implements ValueEventListener {
             }
         });
 
-        addPhoto = findViewById(R.id.image_add);
         buttonSwitch = findViewById(R.id.status_add);
         cat_add = findViewById(R.id.cat_add);
         dog_add = findViewById(R.id.dog_add);
