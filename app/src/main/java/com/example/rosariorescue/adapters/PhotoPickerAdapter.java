@@ -20,7 +20,7 @@ public class PhotoPickerAdapter extends RecyclerView.Adapter<PhotoPickerViewHold
     @Override
     public PhotoPickerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.fragment_picked_photo, parent, false);
+        View view = inflater.inflate(R.layout.fragment_picked_photo2, parent, false);
         return new PhotoPickerViewHolder(view);
     }
 

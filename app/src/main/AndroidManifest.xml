@@ -25,8 +25,11 @@
         <activity android:name=".ui.activities.AnimalFullDescriptionActivity"/>
         <activity android:name=".ui.activities.SocialLoginActivity"/>
         <activity android:name=".ui.activities.SharePhotosActivity"/>
-        <activity android:name=".ui.activities.AddAnimal"/>
-        <activity android:name=".ui.activities.PhotoPickerActivity"/>
+        <activity android:name=".ui.activities.AddAnimal" />
+        <activity android:name=".ui.activities.PhotoPickerActivity"
+                  android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
+        </activity>
+
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>

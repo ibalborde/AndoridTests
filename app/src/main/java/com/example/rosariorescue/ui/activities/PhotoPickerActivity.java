@@ -45,6 +45,7 @@ public class PhotoPickerActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.add_animal);
 
@@ -59,7 +60,7 @@ public class PhotoPickerActivity extends BaseActivity {
             }
         });
 
-        //this.emptySelectionView = findViewById(R.id.empty_view);
+        this.emptySelectionView = findViewById(R.id.empty_view);
 
         this.photoPickerAdapter = new PhotoPickerAdapter();
 
@@ -67,7 +68,7 @@ public class PhotoPickerActivity extends BaseActivity {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setAdapter(photoPickerAdapter);
 
-        portada = findViewById(R.id.image_add);
+        //portada = findViewById(R.id.image_add);
 
         // Galery Button
         //AppCompatImageButton addFromGaleryButton = findViewById(R.id.image_add);
@@ -121,9 +122,9 @@ public class PhotoPickerActivity extends BaseActivity {
                 photoPickerAdapter.addLast();
             }
         }
-        portada.setImageURI(photos.get(0).getUri());
+        //portada.setImageURI(photos.get(0).getUri());
 
-      //  this.updateEmptySelectionView();
+        this.updateEmptySelectionView();
     }
 
     // MARK: - Intent
@@ -144,11 +145,11 @@ public class PhotoPickerActivity extends BaseActivity {
 
     // MARK: - Internal
 
-//    private void updateEmptySelectionView() {
-//        int count = PhotoPackCreator.get().getDiffPhotosCount();
-//        boolean isEmpty = count == 0;
-//        int visibility = isEmpty ? View.VISIBLE : View.INVISIBLE;
-//        this.emptySelectionView.setVisibility(visibility);
-//    }
+    private void updateEmptySelectionView() {
+        int count = PhotoPackCreator.get().getDiffPhotosCount();
+        boolean isEmpty = count == 0;
+        int visibility = isEmpty ? View.VISIBLE : View.INVISIBLE;
+        this.emptySelectionView.setVisibility(visibility);
+    }
 
 }
