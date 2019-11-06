@@ -4,7 +4,8 @@
     package="com.example.rosariorescue">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -25,6 +26,7 @@
         <activity android:name=".ui.activities.SocialLoginActivity"/>
         <activity android:name=".ui.activities.SharePhotosActivity"/>
         <activity android:name=".ui.activities.AddAnimal"/>
+        <activity android:name=".ui.activities.PhotoPickerActivity"/>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
