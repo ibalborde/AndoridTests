@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "939177397342-lk2pkk6ne8b7vjs7fj776v7legct74ip.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rosariorescue",
+            "certificate_hash": "09d9fbc04c25e8c9e8ad2498b2b86c29d441c2c8"
+          }
+        },
+        {
           "client_id": "939177397342-6o7i5hvvqau7b2lclkcqq1jc3026mob4.apps.googleusercontent.com",
           "client_type": 3
         }

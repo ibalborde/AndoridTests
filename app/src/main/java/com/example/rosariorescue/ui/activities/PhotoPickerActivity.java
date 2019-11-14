@@ -1,19 +1,27 @@
 package com.example.rosariorescue.ui.activities;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.rosariorescue.BaseActivity;
 import com.example.rosariorescue.R;
 import com.example.rosariorescue.StaticAlbums;
+import com.example.rosariorescue.Upload;
 import com.example.rosariorescue.adapters.PhotoPickerAdapter;
 import com.example.rosariorescue.data.PhotoPackCreator;
 import com.example.rosariorescue.data.PhotoPickingItem;
@@ -40,9 +49,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Currency;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +77,8 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
 
     private Switch buttonSwitch;
     private ImageView addPhoto;
-    public Uri imageUri;
+    public List<Uri> imageUriList;
+    private String mName;
     private int status;
     private int type;
     private int cant_images;
@@ -71,11 +89,19 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
     private RadioGroup grupo_add;
     private Button button_add;
     private List<Integer> listPhotos;
-
+    private static final int RESULT_LOAD_IMAGE = 1;
+    private Uri[] datasUri = null;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DatabaseReference mRootReference = firebaseDatabase.getReference();
-    private DatabaseReference mAnimalReference = mRootReference.child("Animal");
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private boolean statusForDates = false;
+
+    private StorageReference mStorageReference;
+    private DatabaseReference mDatabaseReferece;
+    private ProgressBar mProgressBar;
+    private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    private Long referentName;
+
 
     // MARK: - Life Cycle
 
@@ -84,6 +110,10 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.add_animal);
+
+        mStorageReference = FirebaseStorage.getInstance().getReference("Animales");
+        mDatabaseReferece = FirebaseDatabase.getInstance().getReference("Animales");
+
 
         //toolbar
         Toolbar mToolbar = findViewById(R.id.toolbar);
@@ -115,7 +145,10 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //addAnimal();
+                Date cDate = new Date();
+                String nameDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(cDate);
+
+                uploadAnimals(nameDate);
             }
         });
 
@@ -155,15 +188,54 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
 
         switch (item.getItemId()) {
             case R.id.action_select_photos:
-                PhotoPickerUtil.tryPickFromGallery(this);
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), RESULT_LOAD_IMAGE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        List<PhotoPickingItem> photos = PhotoPickerUtil.onActivityResult(requestCode, resultCode, data);
+        if (photos.isEmpty()) {
+            return;
+        }
+
+        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK){
+            if(data.getClipData() != null){
+                int totalItemsSelected = data.getClipData().getItemCount();
+
+                datasUri = new Uri[totalItemsSelected];
+                for(int i = 0; i < totalItemsSelected; i++){
+                    Uri fileUri = data.getClipData().getItemAt(i).getUri();
+                    datasUri[i] =fileUri;
+                    if (PhotoPackCreator.get().addImage(photos.get(i))) {
+                        photoPickerAdapter.addLast();
+                    }
+
+                }
+            } else if(data.getData() != null){
+                datasUri = new Uri[1];
+                    Uri fileUri = data.getData();
+                    datasUri[1] =fileUri;
+                    if (PhotoPackCreator.get().addImage(photos.get(0))) {
+                        photoPickerAdapter.addLast();
+
+                }
+            }
+        }
+
+    }
+
+
+        @Override
     public void onStart() {
         updateEmptySelectionView();
         super.onStart();
@@ -173,29 +245,6 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         PhotoPickerUtil.onRequestPermissionsResult(this, requestCode, grantResults);
     }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        List<PhotoPickingItem> photos = PhotoPickerUtil.onActivityResult(requestCode, resultCode, data);
-        if (photos.isEmpty()) {
-            return;
-        }
-
-        for (PhotoPickingItem photoPickingItem : photos) {
-            if (PhotoPackCreator.get().addImage(photoPickingItem)) {
-                photoPickerAdapter.addLast();
-            }
-        }
-
-        this.updateEmptySelectionView();
-    }
-
-//    public static void displayFrom(Activity activity) {
-//        Intent intent = new Intent(activity, PhotoPickerActivity.class);
-//        activity.startActivity(intent);
-//    }
-
 
     @Subscribe
     public void onPhotoPackPickedImageDelete(PhotoPackPickedImageDeleteEvent event) {
@@ -220,33 +269,130 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
 
     }
 
-    public void addAnimal() {
+    public void addAnimal( String nameDate) {
         // Create a new user with a first and last name
         Map<String, Object> animal = new HashMap<>();
+        cant_images = datasUri.length;
         animal.put("cant_images", cant_images);
         animal.put("status", status);
         animal.put("type", type);
         animal.put("description", Objects.requireNonNull(description.getText()).toString());
-        for(int i = 0; i < cant_images; i++){
-            animal.put("image" + i, listPhotos.get(i));
-        }
 
         // Add a new document with a generated ID
-        db.collection("Animal")
+        db.collection(nameDate)
                 .add(animal)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        Toast.makeText(PhotoPickerActivity.this, "Done!!", Toast.LENGTH_SHORT).show();
+                        finish();
+//                        Intent myIntent = new Intent(PhotoPickerActivity.this, MainActivity.class);
+//                        startActivity(myIntent);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
+                        Log.w(TAG, "Error adding Animal :c", e);
                     }
                 });
     }
 
+
+    private String getFileExtension(Uri uri){
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(uri));
+    }
+
+//    private void uploadAnimals(){
+//        if(imageUriList != null){
+//            referentName = System.currentTimeMillis();
+//            for(Uri imageUri: imageUriList){
+//                StorageReference fileReference = mStorageReference.child(referentName
+//                        + "." + getFileExtension(imageUri));
+//                fileReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                        Handler handler = new Handler();
+//                        handler.postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                //add progress bar
+//                                //mProgressBar.setProgress(0);
+//                            }
+//                        }, 500);
+//                        Toast.makeText(PhotoPickerActivity.this, R.string.upload_success, Toast.LENGTH_SHORT).show();
+//                        Date date = new Date();
+//                        mName = referentName + "." + formatter.format(date);
+//                        Upload upload = new Upload(mName, mStorageReference.getDownloadUrl().toString(), status, type, description.getText().toString().trim());
+//                        String uploadId = mDatabaseReferece.push().getKey();
+//                        mDatabaseReferece.child(uploadId).setValue(upload);
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(PhotoPickerActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+//                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+//                        //set progressBar
+//                        //mProgressBar.setProgress((int) progress);
+//                    }
+//                });
+//            }
+//
+//        }else{
+//            Toast.makeText(this, R.string.no_photo_selected, Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
+
+    private void uploadAnimals(String nameDate) {
+
+        for (int i = 0; i < datasUri.length; i++) {
+            StorageReference fileToUpload = mStorageReference.child(nameDate).child(nameDate +" "+i);
+            fileToUpload.putFile(datasUri[i]).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    statusForDates = true;
+                }
+            });
+
+        }
+        if(statusForDates){
+            addAnimal(nameDate);
+        }
+    }
+
+
+
+
+    public String getFileName(Uri uri){
+        String result = null;
+        if(uri.getScheme().equals("content")){
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            try{
+                if(cursor != null && cursor.moveToFirst()){
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+            if (result == null){
+                result = uri.getPath();
+                int cut = result.lastIndexOf('/');
+                if(cut != 1){
+                    result = result.substring(cut + 1);
+                }
+            }
+            return result;
+
+    }
 
 }

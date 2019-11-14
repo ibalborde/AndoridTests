@@ -69,7 +69,7 @@ public class SharePhotosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(this.getApplicationContext());
+//        FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.share_photo);
 
         //toolbar

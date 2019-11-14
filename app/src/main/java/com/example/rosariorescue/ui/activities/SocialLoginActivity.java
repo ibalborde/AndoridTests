@@ -31,7 +31,7 @@ import java.util.Arrays;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SocialLoginActivity extends AppCompatActivity {
+public class    SocialLoginActivity extends AppCompatActivity {
 
     private static final String TAG = SocialLoginActivity.class.getSimpleName();
 
