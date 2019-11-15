@@ -23,7 +23,10 @@
     <string name="no_photo_selected">No photo selected</string>
     <string name="upload_success">Upload Success</string>
     <string name="generic_error">Something went wrong</string>
-
+    <string name="need_photo_select">You need to select at least one photo </string>
+    <string name="done">Done!!</string>
+    <string name="uploading">uploading</string>
+    <string name="uploading_finish">done</string>
 
 
     <string name="facebook_app_id">451731489031892</string>

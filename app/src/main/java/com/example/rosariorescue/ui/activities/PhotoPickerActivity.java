@@ -57,6 +57,7 @@ import com.google.firebase.storage.UploadTask;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
@@ -88,13 +89,15 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
     private RadioButton other_add;
     private RadioGroup grupo_add;
     private Button button_add;
-    private List<Integer> listPhotos;
+
     private static final int RESULT_LOAD_IMAGE = 1;
     private Uri[] datasUri = null;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private boolean statusForDates = false;
+    private List<String> fileDoneList;
+    private List<PhotoPickingItem> photos;
 
     private StorageReference mStorageReference;
     private DatabaseReference mDatabaseReferece;
@@ -154,7 +157,8 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
 
         this.emptySelectionView = findViewById(R.id.empty_view);
 
-        this.photoPickerAdapter = new PhotoPickerAdapter();
+        fileDoneList = new ArrayList<>();
+        this.photoPickerAdapter = new PhotoPickerAdapter(fileDoneList);
 
         // Recycler View
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -203,7 +207,7 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        List<PhotoPickingItem> photos = PhotoPickerUtil.onActivityResult(requestCode, resultCode, data);
+        photos = PhotoPickerUtil.onActivityResult(requestCode, resultCode, data);
         if (photos.isEmpty()) {
             return;
         }
@@ -216,6 +220,8 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
                 for(int i = 0; i < totalItemsSelected; i++){
                     Uri fileUri = data.getClipData().getItemAt(i).getUri();
                     datasUri[i] =fileUri;
+                    fileDoneList.add(String.valueOf(R.string.uploading));
+                    photoPickerAdapter.notifyDataSetChanged();
                     if (PhotoPackCreator.get().addImage(photos.get(i))) {
                         photoPickerAdapter.addLast();
                     }
@@ -224,14 +230,14 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
             } else if(data.getData() != null){
                 datasUri = new Uri[1];
                     Uri fileUri = data.getData();
-                    datasUri[1] =fileUri;
+                    datasUri[0] =fileUri;
+                    fileDoneList.add(String.valueOf(R.string.uploading));
                     if (PhotoPackCreator.get().addImage(photos.get(0))) {
                         photoPickerAdapter.addLast();
 
                 }
             }
         }
-
     }
 
 
@@ -284,10 +290,8 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(PhotoPickerActivity.this, "Done!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PhotoPickerActivity.this, R.string.upload_success, Toast.LENGTH_SHORT).show();
                         finish();
-//                        Intent myIntent = new Intent(PhotoPickerActivity.this, MainActivity.class);
-//                        startActivity(myIntent);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -298,101 +302,29 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
                 });
     }
 
-
-    private String getFileExtension(Uri uri){
-        ContentResolver cr = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cr.getType(uri));
-    }
-
-//    private void uploadAnimals(){
-//        if(imageUriList != null){
-//            referentName = System.currentTimeMillis();
-//            for(Uri imageUri: imageUriList){
-//                StorageReference fileReference = mStorageReference.child(referentName
-//                        + "." + getFileExtension(imageUri));
-//                fileReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                        Handler handler = new Handler();
-//                        handler.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                //add progress bar
-//                                //mProgressBar.setProgress(0);
-//                            }
-//                        }, 500);
-//                        Toast.makeText(PhotoPickerActivity.this, R.string.upload_success, Toast.LENGTH_SHORT).show();
-//                        Date date = new Date();
-//                        mName = referentName + "." + formatter.format(date);
-//                        Upload upload = new Upload(mName, mStorageReference.getDownloadUrl().toString(), status, type, description.getText().toString().trim());
-//                        String uploadId = mDatabaseReferece.push().getKey();
-//                        mDatabaseReferece.child(uploadId).setValue(upload);
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(PhotoPickerActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-//                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-//                        //set progressBar
-//                        //mProgressBar.setProgress((int) progress);
-//                    }
-//                });
-//            }
-//
-//        }else{
-//            Toast.makeText(this, R.string.no_photo_selected, Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
-
     private void uploadAnimals(String nameDate) {
+        if(datasUri != null) {
 
-        for (int i = 0; i < datasUri.length; i++) {
-            StorageReference fileToUpload = mStorageReference.child(nameDate).child(nameDate +" "+i);
-            fileToUpload.putFile(datasUri[i]).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    statusForDates = true;
-                }
-            });
+            for (int i = 0; i < datasUri.length; i++) {
+                StorageReference fileToUpload = mStorageReference.child(nameDate).child(nameDate + " " + i);
+                final int finalI = i;
+                fileToUpload.putFile(datasUri[i]).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        statusForDates = true;
+                        fileDoneList.remove(finalI);
+                        fileDoneList.add(finalI, String.valueOf(R.string.uploading_finish));
 
-        }
-        if(statusForDates){
-            addAnimal(nameDate);
+                        photoPickerAdapter.notifyDataSetChanged();
+                        if(finalI == datasUri.length - 1){
+                            addAnimal(nameDate);
+                        }
+                    }
+                });
+
+            }
+        }else{
+            Toast.makeText(PhotoPickerActivity.this, R.string.need_photo_select, Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-
-    public String getFileName(Uri uri){
-        String result = null;
-        if(uri.getScheme().equals("content")){
-            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-            try{
-                if(cursor != null && cursor.moveToFirst()){
-                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                }
-            } finally {
-                cursor.close();
-            }
-        }
-            if (result == null){
-                result = uri.getPath();
-                int cut = result.lastIndexOf('/');
-                if(cut != 1){
-                    result = result.substring(cut + 1);
-                }
-            }
-            return result;
-
-    }
-
 }

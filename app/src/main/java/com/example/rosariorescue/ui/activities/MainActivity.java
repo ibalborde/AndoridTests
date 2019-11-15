@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view ->  {
-            Intent myIntent = new Intent(this, PhotoPickerActivity.class);
+            Intent myIntent = new Intent(MainActivity.this, PhotoPickerActivity.class);
             startActivity(myIntent);
 //                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();

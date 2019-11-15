@@ -13,12 +13,14 @@ import com.example.rosariorescue.R;
 import com.example.rosariorescue.data.PhotoPackCreator;
 import com.example.rosariorescue.data.PhotoPickingItem;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class PhotoPickerViewHolder extends RecyclerView.ViewHolder {
 
     // MARK: - Data
+
 
     private PhotoPickingItem photoPickingItem;
 
@@ -35,11 +37,24 @@ public class PhotoPickerViewHolder extends RecyclerView.ViewHolder {
 
     // MARK: - get set
 
-    public void setPhotoPickingItem(PhotoPickingItem photoPickingItem) {
+    public void setPhotoPickingItem(PhotoPickingItem photoPickingItem, int position, List<String> fileDoneList) {
         this.photoPickingItem = photoPickingItem;
 
         ImageView imageView = itemView.findViewById(R.id.thumbnail_photo);
+        ImageView imageViewCheck = itemView.findViewById(R.id.upload_loading);
         imageView.setImageURI(photoPickingItem.getUri());
+
+        String fileDone = fileDoneList.get(position);
+
+        if(fileDone.equals(String.valueOf(R.string.uploading))){
+
+            imageViewCheck.setImageResource(R.drawable.progress);
+
+        } else {
+
+            imageViewCheck.setImageResource(R.drawable.checked);
+
+        }
     }
 
     // MARK: - Internal
@@ -62,4 +77,23 @@ public class PhotoPickerViewHolder extends RecyclerView.ViewHolder {
 
     }
 
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        View mView;
+
+        public ImageView fileDoneView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            mView = itemView;
+
+            fileDoneView = (ImageView) mView.findViewById(R.id.upload_loading);
+
+
+        }
+
+    }
 }

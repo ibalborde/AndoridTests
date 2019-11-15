@@ -12,7 +12,19 @@ import com.example.rosariorescue.R;
 import com.example.rosariorescue.data.PhotoPackCreator;
 import com.example.rosariorescue.viewHolders.PhotoPickerViewHolder;
 
+import java.util.List;
+
 public class PhotoPickerAdapter extends RecyclerView.Adapter<PhotoPickerViewHolder> {
+
+    public List<String> fileDoneList;
+
+    public PhotoPickerAdapter(List<String> fileDoneList){
+
+        this.fileDoneList = fileDoneList;
+
+    }
+
+
 
     // MARK: - Adapter
 
@@ -26,7 +38,11 @@ public class PhotoPickerAdapter extends RecyclerView.Adapter<PhotoPickerViewHold
 
     @Override
     public void onBindViewHolder(@NonNull PhotoPickerViewHolder holder, int position) {
-        holder.setPhotoPickingItem(PhotoPackCreator.get().getPickedItem(position));
+        holder.setPhotoPickingItem(PhotoPackCreator.get().getPickedItem(position), position, fileDoneList);
+
+
+
+
     }
 
     @Override
