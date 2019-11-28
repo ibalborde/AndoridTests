@@ -21,7 +21,9 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -137,6 +139,7 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
         button_add = findViewById(R.id.button_add);
         grupo_add = findViewById(R.id.radioGroup_add);
 
+
         if(!buttonSwitch.isChecked()){
             buttonSwitch.setText(R.string.status_wanted);
             status = 0;
@@ -163,6 +166,21 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
         // Recycler View
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setAdapter(photoPickerAdapter);
+
+
+        buttonSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (buttonSwitch.isChecked()){
+                    buttonSwitch.setText(R.string.status_found);
+                }
+
+                else{
+                    buttonSwitch.setText(R.string.status_wanted);
+
+                }
+            }
+        });
 
     }
 

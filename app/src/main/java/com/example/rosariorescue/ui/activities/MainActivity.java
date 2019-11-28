@@ -68,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(view ->  {
             Intent myIntent = new Intent(MainActivity.this, PhotoPickerActivity.class);
             startActivity(myIntent);
-//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
         });
 
         OneSignal.startInit(this)
