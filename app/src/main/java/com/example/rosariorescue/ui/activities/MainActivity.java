@@ -3,8 +3,10 @@ package com.example.rosariorescue.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,6 +14,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.rosariorescue.AnimalDataSource;
 import com.example.rosariorescue.StaticAlbums;
 import com.example.rosariorescue.R;
@@ -27,12 +31,21 @@ import com.onesignal.OneSignal;
 
 import org.json.JSONObject;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 public class MainActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private View navHeader;
+    private ImageView imgNavHeaderBg, imgProfile;
+    private TextView txtName, txtWebsite;
+    private Toolbar toolbar;
+    private FloatingActionButton fab;
 
+    private static final String urlNavHeaderBg = "http://api.androidhive.info/images/nav-menu-header-bg.jpg";
+    // index to identify current nav menu item
+    public static int navItemIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Navigation view header
         navHeader = navigationView.getHeaderView(0);
+        txtName = (TextView) navHeader.findViewById(R.id.name);
+        txtWebsite = (TextView) navHeader.findViewById(R.id.website);
+        imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
+        imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
 
         //add fragments here
         AnimalDataSource catsDataSource = new AnimalDataSource("Cats", StaticAlbums.AnimalsListCats);
@@ -82,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
 //            Intent myIntent = new Intent(MainActivity.this, PhotoPickerActivity.class);
 //            startActivity(myIntent);
 //        });
+
+        // load nav menu header data
+        loadNavHeader();
 
         OneSignal.startInit(this)
                 .setNotificationReceivedHandler(new ExampleNotificationReceivedHandler())
@@ -135,6 +155,51 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    /***
+     * Load navigation menu header information
+     * like background image, profile image
+     * name, website, notifications action view (dot)
+     */
+    private void loadNavHeader() {
+        // name, website
+        txtName.setText("Maxi Ibalborde");
+        txtWebsite.setText("http://www.instagram.com/maxi_ibalborde?r=nametag");
+
+        // loading header background image
+        Glide.with(this).load(urlNavHeaderBg)
+                .transition(withCrossFade())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imgNavHeaderBg);
+
+        // Loading profile image
+        Glide.with(this).load(R.drawable.cat2)
+                .transition(withCrossFade())
+                .thumbnail(0.5f)
+                .apply(RequestOptions.circleCropTransform())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imgProfile);
+
+        // showing dot next to notifications label
+        navigationView.getMenu().getItem(3).setActionView(R.layout.menu_dot);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+
+        // show menu only when home fragment is selected
+        if (navItemIndex == 0) {
+            getMenuInflater().inflate(R.menu.main, menu);
+        }
+
+        // when fragment is notifications, load the menu created for notifications
+        if (navItemIndex == 3) {
+            getMenuInflater().inflate(R.menu.notifications, menu);
+        }
+        return true;
     }
 
 }
