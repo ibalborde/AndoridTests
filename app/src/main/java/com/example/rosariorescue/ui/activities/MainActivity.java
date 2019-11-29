@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +19,7 @@ import com.example.rosariorescue.adapters.ViewPagerAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.onesignal.OSNotification;
@@ -27,14 +29,25 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
+    private NavigationView navigationView;
+    private DrawerLayout drawer;
+    private View navHeader;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.activity_main);
+        this.setContentView(R.layout.drawer_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        // Navigation view header
+        navHeader = navigationView.getHeaderView(0);
 
         //add fragments here
         AnimalDataSource catsDataSource = new AnimalDataSource("Cats", StaticAlbums.AnimalsListCats);
@@ -64,11 +77,11 @@ public class MainActivity extends AppCompatActivity {
 
         //adding floating button
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view ->  {
-            Intent myIntent = new Intent(MainActivity.this, PhotoPickerActivity.class);
-            startActivity(myIntent);
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(view ->  {
+//            Intent myIntent = new Intent(MainActivity.this, PhotoPickerActivity.class);
+//            startActivity(myIntent);
+//        });
 
         OneSignal.startInit(this)
                 .setNotificationReceivedHandler(new ExampleNotificationReceivedHandler())
