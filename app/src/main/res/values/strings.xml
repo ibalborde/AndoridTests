@@ -16,6 +16,7 @@
     <string name="type_other">Other</string>
     <string name="status_found">Found</string>
     <string name="status_wanted">Wanted</string>
+    <string name="status_all">All</string>
     <string name="title_select_type">Select Type</string>
     <string name="button_add_animal">Add</string>
     <string name="status">Status</string>

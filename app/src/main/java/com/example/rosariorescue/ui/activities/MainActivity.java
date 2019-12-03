@@ -378,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
 
         // show menu only when home fragment is selected
         if (navItemIndex == 0) {
-            getMenuInflater().inflate(R.menu.main, menu);
+            getMenuInflater().inflate(R.menu.menu_search_options, menu);
         }
 
         // when fragment is notifications, load the menu created for notifications
@@ -393,27 +393,33 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
-            Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
-            return true;
+        switch(item.getItemId()){
+            case R.id.action_logout:
+                // Set the text color to red
+                Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.action_mark_all_read:
+                // Set the text color to green
+                Toast.makeText(getApplicationContext(), "All notifications marked as read!", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.action_clear_notifications:
+                // Set the text color to blue
+                Toast.makeText(getApplicationContext(), "Clear all notifications!", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.wanted:
+
+            case R.id.founded:
+                if(item.isChecked()){
+                    item.setChecked(false);
+                }else {
+                    item.setChecked(true);
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        // user is in notifications fragment
-        // and selected 'Mark all as Read'
-        if (id == R.id.action_mark_all_read) {
-            Toast.makeText(getApplicationContext(), "All notifications marked as read!", Toast.LENGTH_LONG).show();
-        }
-
-        // user is in notifications fragment
-        // and selected 'Clear All'
-        if (id == R.id.action_clear_notifications) {
-            Toast.makeText(getApplicationContext(), "Clear all notifications!", Toast.LENGTH_LONG).show();
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     // show or hide the fab
