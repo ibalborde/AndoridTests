@@ -12,9 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.rosariorescue.data.LocalPhotoPickingItem;
-import com.example.rosariorescue.data.PhotoPickingItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +50,7 @@ public class PhotoPickerUtil {
         }
     }
 
-    public static List<PhotoPickingItem> onActivityResult(int requestCode, int resultCode, Intent data) {
+    public static List<Uri> onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK || requestCode != GALLERY_REQUEST_CODE) {
             return new ArrayList<>();
         }
@@ -84,8 +81,8 @@ public class PhotoPickerUtil {
         activity.startActivityForResult(Intent.createChooser(intent,"Seleccionar Imágenes"), GALLERY_REQUEST_CODE);
     }
 
-    private static List<PhotoPickingItem> getPhotosFromIntent(Intent intentData) {
-        ArrayList<PhotoPickingItem> result = new ArrayList<>();
+    private static List<Uri> getPhotosFromIntent(Intent intentData) {
+        ArrayList<Uri> result = new ArrayList<>();
 
         ClipData clipData = intentData.getClipData();
         Uri data = intentData.getData();
@@ -94,12 +91,10 @@ public class PhotoPickerUtil {
             int count = clipData.getItemCount();
             for(int i = 0; i < count; i++) {
                 Uri imageUri = clipData.getItemAt(i).getUri();
-                PhotoPickingItem photoPickingItem = new LocalPhotoPickingItem(imageUri);
-                result.add(photoPickingItem);
+                result.add(imageUri);
             }
         } else if(data != null) {
-            PhotoPickingItem photoPickingItem = new LocalPhotoPickingItem(data);
-            result.add(photoPickingItem);
+            result.add(data);
         }
 
         return result;

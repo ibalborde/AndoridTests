@@ -1,6 +1,6 @@
 package com.example.rosariorescue.adapters;
 
-
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,24 +9,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rosariorescue.R;
-import com.example.rosariorescue.data.PhotoPackCreator;
 import com.example.rosariorescue.viewHolders.PhotoPickerViewHolder;
 
 import java.util.List;
 
 public class PhotoPickerAdapter extends RecyclerView.Adapter<PhotoPickerViewHolder> {
 
-    public List<String> fileDoneList;
+    private List<String> fileDoneList;
 
-    public PhotoPickerAdapter(List<String> fileDoneList){
+    private List<Uri> photos;
 
+    public PhotoPickerAdapter(List<Uri> photos, List<String> fileDoneList){
         this.fileDoneList = fileDoneList;
-
+        this.photos = photos;
     }
 
-
-
     // MARK: - Adapter
+
+    @Override
+    public int getItemCount() {
+        return photos.size();
+    }
 
     @NonNull
     @Override
@@ -38,16 +41,7 @@ public class PhotoPickerAdapter extends RecyclerView.Adapter<PhotoPickerViewHold
 
     @Override
     public void onBindViewHolder(@NonNull PhotoPickerViewHolder holder, int position) {
-        holder.setPhotoPickingItem(PhotoPackCreator.get().getPickedItem(position), position, fileDoneList);
-
-
-
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return PhotoPackCreator.get().getDiffPhotosCount();
+        holder.setPhotoPickingItem(photos.get(position), position, fileDoneList);
     }
 
     // MARK: - Interface
@@ -56,7 +50,13 @@ public class PhotoPickerAdapter extends RecyclerView.Adapter<PhotoPickerViewHold
         this.notifyItemInserted(getItemCount() - 1);
     }
 
-    public void remove(int index) {
+    public void remove(Uri uri) {
+        int index = this.photos.indexOf(uri);
+        if (index == -1) {
+            return;
+        }
+
+        this.photos.remove(index);
         this.notifyItemRemoved(index);
     }
 

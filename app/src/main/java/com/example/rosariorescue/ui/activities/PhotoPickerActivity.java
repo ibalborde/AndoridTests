@@ -1,67 +1,45 @@
 package com.example.rosariorescue.ui.activities;
 
-import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.example.rosariorescue.BaseActivity;
 import com.example.rosariorescue.R;
-import com.example.rosariorescue.StaticAlbums;
-import com.example.rosariorescue.Upload;
 import com.example.rosariorescue.adapters.PhotoPickerAdapter;
-import com.example.rosariorescue.data.PhotoPackCreator;
-import com.example.rosariorescue.data.PhotoPickingItem;
-import com.example.rosariorescue.event.PhotoPackPickedImageDeleteEvent;
+import com.example.rosariorescue.event.PickedPhotoDeletionEvent;
 import com.example.rosariorescue.util.PhotoPickerUtil;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -99,14 +77,13 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private boolean statusForDates = false;
     private List<String> fileDoneList;
-    private List<PhotoPickingItem> photos;
+    private List<Uri> pickedPhotos;
 
     private StorageReference mStorageReference;
     private DatabaseReference mDatabaseReferece;
     private ProgressBar mProgressBar;
     private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     private Long referentName;
-
 
     // MARK: - Life Cycle
 
@@ -119,17 +96,11 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
         mStorageReference = FirebaseStorage.getInstance().getReference("Animales");
         mDatabaseReferece = FirebaseDatabase.getInstance().getReference("Animales");
 
-
         //toolbar
         Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.baseline_keyboard_arrow_left_white_36);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(view -> finish());
 
         buttonSwitch = findViewById(R.id.status_add);
         cat_add = findViewById(R.id.cat_add);
@@ -148,40 +119,32 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
             status = 1;
         }
         type = comprobarType(grupo_add);
-        button_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Date cDate = new Date();
-                String nameDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(cDate);
+        button_add.setOnClickListener(v -> {
+            Date cDate = new Date();
+            String nameDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(cDate);
 
-                uploadAnimals(nameDate);
-            }
+            uploadAnimals(nameDate);
         });
 
         this.emptySelectionView = findViewById(R.id.empty_view);
 
         fileDoneList = new ArrayList<>();
-        this.photoPickerAdapter = new PhotoPickerAdapter(fileDoneList);
+        pickedPhotos = new ArrayList<>();
+        this.photoPickerAdapter = new PhotoPickerAdapter(pickedPhotos, fileDoneList);
 
         // Recycler View
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setAdapter(photoPickerAdapter);
 
 
-        buttonSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (buttonSwitch.isChecked()){
-                    buttonSwitch.setText(R.string.status_found);
-                }
-
-                else{
-                    buttonSwitch.setText(R.string.status_wanted);
-
-                }
+        buttonSwitch.setOnClickListener(v -> {
+            if (buttonSwitch.isChecked()){
+                buttonSwitch.setText(R.string.status_found);
+            }
+            else{
+                buttonSwitch.setText(R.string.status_wanted);
             }
         });
-
     }
 
 
@@ -225,7 +188,7 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        photos = PhotoPickerUtil.onActivityResult(requestCode, resultCode, data);
+        List<Uri> photos = PhotoPickerUtil.onActivityResult(requestCode, resultCode, data);
         if (photos.isEmpty()) {
             return;
         }
@@ -240,26 +203,22 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
                     datasUri[i] =fileUri;
                     fileDoneList.add(String.valueOf(R.string.uploading));
                     photoPickerAdapter.notifyDataSetChanged();
-                    if (PhotoPackCreator.get().addImage(photos.get(i))) {
-                        photoPickerAdapter.addLast();
-                    }
-
+                    pickedPhotos.add(photos.get(i));
+                    photoPickerAdapter.addLast();
                 }
             } else if(data.getData() != null){
                 datasUri = new Uri[1];
-                    Uri fileUri = data.getData();
-                    datasUri[0] =fileUri;
-                    fileDoneList.add(String.valueOf(R.string.uploading));
-                    if (PhotoPackCreator.get().addImage(photos.get(0))) {
-                        photoPickerAdapter.addLast();
-
-                }
+                Uri fileUri = data.getData();
+                datasUri[0] =fileUri;
+                fileDoneList.add(String.valueOf(R.string.uploading));
+                pickedPhotos.add(photos.get(0));
+                photoPickerAdapter.addLast();
             }
         }
     }
 
 
-        @Override
+    @Override
     public void onStart() {
         updateEmptySelectionView();
         super.onStart();
@@ -271,14 +230,13 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
     }
 
     @Subscribe
-    public void onPhotoPackPickedImageDelete(PhotoPackPickedImageDeleteEvent event) {
-        photoPickerAdapter.remove(event.index);
+    public void onPhotoPackPickedImageDelete(PickedPhotoDeletionEvent event) {
+        photoPickerAdapter.remove(event.uri);
         this.updateEmptySelectionView();
     }
 
     private void updateEmptySelectionView() {
-        int count = PhotoPackCreator.get().getDiffPhotosCount();
-        boolean isEmpty = count == 0;
+        boolean isEmpty = pickedPhotos.isEmpty();
         int visibility = isEmpty ? View.VISIBLE : View.INVISIBLE;
         this.emptySelectionView.setVisibility(visibility);
     }
@@ -305,44 +263,34 @@ public class PhotoPickerActivity extends BaseActivity implements ValueEventListe
         // Add a new document with a generated ID
         db.collection(nameDate)
                 .add(animal)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(PhotoPickerActivity.this, R.string.upload_success, Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
+                .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(PhotoPickerActivity.this, R.string.upload_success, Toast.LENGTH_SHORT).show();
+                    finish();
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding Animal :c", e);
-                    }
-                });
+                .addOnFailureListener(e -> Log.w(TAG, "Error adding Animal :c", e));
     }
 
     private void uploadAnimals(String nameDate) {
-        if(datasUri != null) {
-
-            for (int i = 0; i < datasUri.length; i++) {
-                StorageReference fileToUpload = mStorageReference.child(nameDate).child(nameDate + " " + i);
-                final int finalI = i;
-                fileToUpload.putFile(datasUri[i]).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        statusForDates = true;
-                        fileDoneList.remove(finalI);
-                        fileDoneList.add(finalI, String.valueOf(R.string.uploading_finish));
-
-                        photoPickerAdapter.notifyDataSetChanged();
-                        if(finalI == datasUri.length - 1){
-                            addAnimal(nameDate);
-                        }
-                    }
-                });
-
-            }
-        }else{
+        if (datasUri == null) {
             Toast.makeText(PhotoPickerActivity.this, R.string.need_photo_select, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        for (int i = 0; i < datasUri.length; i++) {
+            StorageReference fileToUpload = mStorageReference.child(nameDate).child(nameDate + " " + i);
+            final int finalI = i;
+            fileToUpload.putFile(datasUri[i]).addOnSuccessListener(taskSnapshot -> {
+                statusForDates = true;
+                fileDoneList.remove(finalI);
+                Log.i("SARASA", "onUpload " + datasUri[finalI]);
+                fileDoneList.add(finalI, String.valueOf(R.string.uploading_finish));
+
+                photoPickerAdapter.notifyDataSetChanged();
+                if(finalI == datasUri.length - 1){
+                    addAnimal(nameDate);
+                }
+            });
+
         }
     }
 }
